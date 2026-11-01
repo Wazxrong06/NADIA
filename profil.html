@@ -52,22 +52,21 @@
       "Aku suka semuanya yang ada pada kamu lillahitaalla"
     ],
 
-    // [kode, nama, keterangan, emoji, [[jabatan, periode, cerita]]]
-    // Logo : foto/org/<kode>-logo.png
-    // Foto : foto/org/<kode>-1.jpg, <kode>-2.jpg, ... (sampai 6) — yang filenya ada otomatis muncul
+    // [kode, nama, keterangan, emoji, file logo di folder org/, [[jabatan, periode, cerita]]]
+    // Foto kegiatan: org/<kode>-1.jpg, <kode>-2.jpg, ... (sampai 6) — yang filenya ada otomatis muncul
     organisasi: [
-      ["fst", "Forum Studi Teknik UNDIP", "Semarang · Mar 2025 – sekarang", "📚", [
+      ["fst", "Forum Studi Teknik UNDIP", "Semarang · Mar 2025 – sekarang", "📚", "FST.png", [
         ["Internal Secretary", "Mar 2026 – sekarang", "Mengelola dokumentasi dan administrasi organisasi: arsip dokumen, notulensi rapat, timeline kegiatan, dan inventaris. Mengoordinasikan rapat dengan sekretaris tiap divisi supaya komunikasi dan administrasi berjalan rapi."],
         ["Human Resources Development", "Mar 2025 – sekarang", "Mengelola SDM internal lewat monitoring kinerja, evaluasi, dan pengembangan anggota. Menyusun program self-awareness, laporan kinerja, grand design dan KPI departemen, serta mendukung evaluasi bulanan dan regenerasi."]
       ]],
-      ["hmtk", "Himpunan Mahasiswa Teknik Kimia UNDIP", "Semarang · Mar 2025 – Mar 2026", "⚗️", [
+      ["hmtk", "Himpunan Mahasiswa Teknik Kimia UNDIP", "Semarang · Mar 2025 – Mar 2026", "⚗️", "HMTK.png", [
         ["Riset dan Teknologi", "Apr 2025 – Mar 2026", "Berkontribusi di pengembangan riset dan akademik lewat program edukasi, lomba, pelatihan, dan berbagi ilmu. Membantu mahasiswa mengasah kemampuan riset, presentasi, dan penulisan ilmiah."],
         ["Sekretaris Chemical Engineering Fair & Competition", "Mar 2025 – Okt 2025", "Menyiapkan proposal, surat sponsor, dan surat undangan; mengurus sertifikat, notulensi, dan LPJ. Mengoordinasikan administrasi dengan birokrasi fakultas dan pihak luar supaya acara berjalan lancar."]
       ]],
-      ["lkmm", "LKMM TD Fakultas Teknik 2025", "BEM FT UNDIP · Mei 2025 – Okt 2025", "🎓", [
+      ["lkmm", "LKMM TD Fakultas Teknik 2025", "BEM FT UNDIP · Mei 2025 – Okt 2025", "🎓", "lkmm td ft.jpeg", [
         ["Peserta", "Mei 2025 – Okt 2025", "Latihan Keterampilan Manajemen Mahasiswa Tingkat Dasar: manajemen risiko, manajemen SDM, rekayasa organisasi, kaderisasi, mini project fundraising & sosial, perencanaan proyek, dan penyusunan grand design organisasi."]
       ]],
-      ["tenn", "Tenn o Vibes", "Tembalang · Paruh waktu", "☕", [
+      ["tenn", "Tenn o Vibes", "Tembalang · Paruh waktu", "☕", "", [
         ["Barista", "Jan 2026 – Mar 2026", "Pengalaman langsung di operasional kafe: kasir, menyiapkan produk, mengoperasikan mesin kopi, menyajikan, dan melayani pelanggan dengan ramah."]
       ]]
     ],
@@ -398,17 +397,17 @@
   PROFIL.alasan.forEach(x => $("why").appendChild(el("li", "", esc(x))));
   PROFIL.timeline.forEach(([d, j, c]) => $("tl").appendChild(el("div", "", `<small>${tgl(parse(d))}</small><b>${esc(j)}</b><p>${esc(c)}</p>`)));
   // ---- Organisasi: logo & foto otomatis muncul kalau filenya ada ----
-  PROFIL.organisasi.forEach(([kode, nama, ket, emoji, peran]) => {
+  PROFIL.organisasi.forEach(([kode, nama, ket, emoji, fileLogo, peran]) => {
     const o = el("article", "org", `<div class="head"><div class="logo">${emoji}</div><div><b>${esc(nama)}</b><small>${esc(ket)}</small></div></div>
       ${peran.map(([j, p, c]) => `<div class="role"><b>${esc(j)}</b><small>${esc(p)}</small><p>${esc(c)}</p></div>`).join("")}
       <div class="pics"></div>`);
     const logo = new Image(), box = o.querySelector(".logo");
     logo.alt = nama;
     logo.onload = () => { box.textContent = ""; box.classList.add("ada"); box.appendChild(logo); };
-    logo.src = `foto/org/${kode}-logo.png`;
+    if (fileLogo) logo.src = "org/" + encodeURIComponent(fileLogo);
     const pics = o.querySelector(".pics"), slot = [];
     for (let i = 1; i <= 6; i++) {
-      const im = new Image(), src = `foto/org/${kode}-${i}.jpg`;
+      const im = new Image(), src = `org/${kode}-${i}.jpg`;
       im.alt = nama;
       im.onclick = () => { $("lbImg").src = src; $("lbCap").textContent = nama; $("lb").classList.add("open"); };
       // urutan tetap 1, 2, 3… walaupun selesai dimuat tidak berurutan
