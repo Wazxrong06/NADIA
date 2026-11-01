@@ -65,6 +65,9 @@
   const now = new Date(), preview = new URLSearchParams(location.search).has("preview");
   const ultahNadia = now.getMonth() === 10 && now.getDate() === 14;
   ORANG[0].link = ultahNadia ? "ucapan.html" : preview ? "ucapan.html?preview" : "profil.html";
+  // 6 Desember: kartu Sholeh membuka ucapan bertema listrik dulu, baru portofolio
+  const ultahSholeh = now.getMonth() === 11 && now.getDate() === 6;
+  ORANG[1].link = ultahSholeh ? "ultah-sholeh.html" : preview ? "ultah-sholeh.html?preview" : "sholeh.html";
 
   ORANG.forEach((o, i) => {
     const a = document.createElement("a");
