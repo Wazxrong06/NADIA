@@ -368,9 +368,6 @@
       <div class="glow"></div>
       <div class="ini" id="ini">MSR</div>
       <div class="pic" id="pic"></div>
-      <div class="float f1">⚡ PLN UPT Duri Kosambi<small>Electrical Maintenance</small></div>
-      <div class="float f2">☀️ PLTS & Solar PV<small>Energi terbarukan</small></div>
-      <div class="float f3">🎓 Universitas Diponegoro<small>Teknik Elektro</small></div>
     </div>
   </section>
 </main>
@@ -496,7 +493,7 @@
   $("sProyek").textContent = PORTO.proyek.length;
   $("sOrg").textContent = PORTO.kerja.length + PORTO.organisasi.length;
 
-  // ---- Marquee: kompetensi + foto galeri (kalau ada) ----
+  // ---- Marquee: kompetensi & layanan ----
   const pills = PORTO.alat.map(t => `<span class="pill"><i>✦</i>${esc(t)}</span>`).join("");
   $("mq1").innerHTML = pills + pills;
   const pills2 = PORTO.layanan.map(([t]) => `<span class="pill"><i>⚡</i>${esc(t)}</span>`).join("");
@@ -548,14 +545,6 @@
 
   // ---- Galeri: hanya foto yang filenya ada ----
   $("gal").appendChild(el("p", "empty", `📷 Belum ada foto. Taruh foto di folder <code>foto/sholeh/</code> dengan nama <code>1.jpg</code>, <code>2.jpg</code>, dst., lalu upload ke GitHub.`));
-  // foto yang berhasil dimuat juga ikut berjalan di marquee, masing-masing sekali per putaran
-  const fotoAda = [];
-  let selesai = 0;
-  function susunMarquee() {
-    const shots = PORTO.galeri.filter(([src]) => fotoAda.includes(src)).map(([src]) => `<span class="shot"><img src="${esc(src)}" alt=""></span>`).join("");
-    const satuPutaran = pills2 + shots;
-    $("mq2").innerHTML = satuPutaran + satuPutaran;   // disalin 2x supaya putarannya menyambung
-  }
   PORTO.galeri.forEach(([src, cap]) => {
     const im = new Image();
     im.alt = cap;
@@ -564,10 +553,7 @@
       const f = el("figure", "", `<figcaption>${esc(cap)}</figcaption>`);
       f.prepend(im); f.onclick = () => lightbox(src, cap);
       $("gal").appendChild(f);
-      fotoAda.push(src);
-      if (++selesai === PORTO.galeri.length) susunMarquee();
     };
-    im.onerror = () => { if (++selesai === PORTO.galeri.length) susunMarquee(); };
     im.src = src;
   });
 
