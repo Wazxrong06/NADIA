@@ -9,57 +9,112 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
 <script>
   /* ======================= GANTI DI SINI =======================
-     Bagian yang masih "contoh" silakan diganti dengan data aslimu.
+     Foto: taruh di folder "foto/sholeh/" lalu tulis namanya di bawah.
+     Foto yang belum ada otomatis disembunyikan.
      ============================================================ */
   const PORTO = {
     nama: "Muhammad Sholeh Rahman",
-    panggilan: "Sholeh",
-    peran: "Mahasiswa · Web & AI Enthusiast",
-    tagline: "Suka membangun hal-hal kecil yang bikin orang tersenyum, dari website interaktif sampai model machine learning.",
-    foto: "foto/sholeh.jpg",          // taruh fotomu di folder foto dengan nama ini
-    lahir: "2005-12-06",              // TAHUN-BULAN-TANGGAL
+    peran: "Mahasiswa Teknik Elektro · Universitas Diponegoro",
+    tagline: "Mahasiswa Teknik Elektro peminatan Sistem Tenaga Listrik, lulusan SMK N 1 Kandeman jurusan Teknik Instalasi Tenaga Listrik. Berpengalaman di proyek panel surya dan instalasi listrik lewat kegiatan akademik maupun lapangan. Disiplin, teliti, mudah beradaptasi, dan senang berkontribusi pada proyek rekayasa yang inovatif, terutama energi terbarukan dan sistem tenaga.",
+    foto: "foto/sholeh/profil.jpg",
+    lahir: "2005-12-06",
     kotaLahir: "Batang, Jawa Tengah",
+    domisili: "Semarang",
 
     info: [
-      ["🎓", "Pendidikan", "Isi kampus & jurusanmu"],
-      ["📚", "Semester", "5"],
-      ["📍", "Asal", "Batang, Jawa Tengah"],
-      ["🏛️", "Organisasi", "PPKO Ormawa FST"]
+      ["🏛️", "Kampus", "Universitas Diponegoro"],
+      ["⚡", "Jurusan", "Teknik Elektro — Sistem Tenaga Listrik"],
+      ["📍", "Domisili", "Semarang, Jawa Tengah"]
     ],
 
-    keahlian: [                       // [nama skill, nilai 0–100]
-      ["Python", 80],
-      ["Machine Learning / Sistem Cerdas", 70],
-      ["HTML, CSS & JavaScript", 85],
-      ["UI / Desain Web", 75],
-      ["Public Speaking", 70],
-      ["Kerja Tim & Organisasi", 90]
+    keahlian: [                       // [nama, nilai 0–100] — silakan sesuaikan nilainya
+      ["Instalasi Listrik 1 & 3 Fasa", 90],
+      ["Pemeliharaan Peralatan Gardu Induk", 80],
+      ["Sistem Tenaga Listrik", 80],
+      ["PLTS / Solar PV", 80],
+      ["PLC & Otomasi Industri", 70],
+      ["Wiring & Single-Line Diagram", 85],
+      ["Desain Konten & Media", 75]
     ],
 
-    alat: ["Python", "Jupyter", "VS Code", "Git & GitHub", "HTML", "CSS", "JavaScript", "Canva"],
+    alat: ["PLC", "Solar PV / PLTS", "BLDC Motor Controller", "ANFIS", "Star–Delta", "Forward–Reverse Control",
+           "Smart Home", "Wiring Diagram", "Single-Line Diagram", "Proteksi & Kontrol"],
 
-    proyek: [                         // [emoji, judul, deskripsi, [teknologi], link (boleh "")]
-      ["🎂", "Website Ucapan Ulang Tahun Interaktif",
-       "Web dengan kado, tiup lilin lewat mikrofon, dashboard live, dinding foto makrame, login Google, dan QR berbentuk hati.",
-       ["HTML", "CSS", "JavaScript", "GitHub Pages"], ""],
-      ["🧠", "Training Data — Sistem Cerdas",
-       "Contoh: pengolahan dan pelatihan data untuk tugas mata kuliah Sistem Cerdas. Ganti dengan deskripsi aslinya.",
-       ["Python", "Machine Learning"], ""],
-      ["🤝", "PPKO Ormawa FST",
-       "Contoh: program pengabdian bersama Forum Studi Teknik. Ganti dengan peran dan hasil kegiatannya.",
-       ["Organisasi", "Pengabdian"], ""]
+    kerja: [                          // [periode, posisi, perusahaan, lokasi, [poin], foto (boleh "")]
+      ["Des 2025 – Feb 2026", "Electrical Maintenance Engineer", "PLN UPT Duri Kosambi", "Jakarta Barat",
+       ["Inspeksi & pemeliharaan peralatan gardu induk: trafo daya, circuit breaker, isolator, panel kontrol & proteksi, capacitor bank.",
+        "Pengujian peralatan dan condition monitoring untuk menjaga keandalan sistem.",
+        "Membantu instalasi, perbaikan, dan troubleshooting sistem kelistrikan.",
+        "Memastikan sistem proteksi dan kontrol bekerja baik untuk mencegah gangguan jaringan.",
+        "Mendukung stabilitas penyaluran daya pada sistem interkoneksi Jawa–Bali."], ""],
+      ["Feb 2023 – Mei 2023", "Electrical Maintenance Engineer", "PT Primatexco Indonesia", "Batang, Jawa Tengah",
+       ["Troubleshooting kelistrikan mesin Ring, Carding, dan Roving pada proses produksi benang.",
+        "Menangani gangguan sistem penerangan di Unit Utility.",
+        "Merancang wiring diagram & single-line diagram instalasi penerangan 1 dan 3 fasa.",
+        "Merancang wiring diagram & single-line diagram instalasi motor 3 fasa Star–Delta.",
+        "Menerapkan rangkaian penerangan 1 fasa pada sistem smart home dan kontrol motor Forward–Reverse."], ""]
     ],
 
-    pengalaman: [                     // [tanggal, judul, cerita]
-      ["2026-08-01", "PPKO Ormawa FST (Forum Studi Teknik)", "Bergabung dalam program PPKO Ormawa. Ganti dengan peran dan kontribusimu."],
-      ["2026-11-01", "Membangun website ucapan interaktif", "Proyek pribadi: website ulang tahun lengkap dengan login Google dan hosting di GitHub Pages."]
+    organisasi: [                     // [periode, divisi, organisasi, [poin]]
+      ["Feb 2026 – Sekarang", "Research and Scientific Division", "Himpunan Mahasiswa Teknik Elektro (HME) Undip",
+       ["Menyelenggarakan kompetisi PKM tingkat departemen.", "Mengoordinasi program persiapan & tes TOEFL.",
+        "Ikut merencanakan acara akademik UNLIMITED.", "Menyusun Buku Pedoman Riset Teknik Elektro."]],
+      ["Feb 2026 – Sekarang", "Electrical Division", "Research Marine Technology (RMT)",
+       ["Merancang sistem PLTS dan kontroler motor BLDC untuk proyek teknologi kelautan.",
+        "Desain sistem kelistrikan, integrasi komponen, pengujian rangkaian, dan troubleshooting prototipe."]],
+      ["Nov 2025 – Sekarang", "Media & Communication Staff", "REPLICA Undip (Research PLC in Control Automation)",
+       ["Menyusun SOP media dan alur komunikasi.", "Mengelola content calendar bulanan dan konten edukasi PLC.",
+        "Membuat konten branding organisasi serta dokumentasi riset, pelatihan, dan roadshow."]],
+      ["Sep 2025 – Des 2025", "Student of Creativity Division", "Himpunan Mahasiswa Teknik Elektro (HME) Undip",
+       ["Mengelola program kerja bidang riset & keilmuan.", "Pendampingan lomba dan karya tulis ilmiah, diskusi akademik, dan workshop."]],
+      ["Nov 2024 – Nov 2026", "Relationship Eksternal Division", "IMADIBA (Ikatan Mahasiswa Diponegoro Batang)",
+       ["Membangun kemitraan dengan organisasi & pemangku kepentingan eksternal.", "Mengelola komunikasi eksternal, sponsorship, dan acara kolaborasi."]]
     ],
 
-    kontak: [                         // [emoji, label, link]
-      ["🐙", "GitHub", "https://github.com/Wazxrong06"],
+    proyek: [                         // [tahun, emoji, judul, deskripsi, [tag], foto (boleh "")]
+      ["2026", "🐟", "Smart Control Berbasis ANFIS untuk Penyimpanan Ikan",
+       "Implementasi kontrol cerdas berbasis ANFIS dan prediksi kualitas untuk sistem penyimpanan ikan di kapal nelayan.", ["ANFIS", "Kontrol Cerdas"], ""],
+      ["2026", "🌾", "SAHABAT TANI",
+       "Sistem pengendali hama tikus pintar bertenaga surya dengan teknologi ultrasonik dan biopestisida untuk pertanian berkelanjutan.", ["PLTS", "Ultrasonik", "IoT"], ""],
+      ["2023", "🏭", "Sistem Kontrol Daya Mesin Carding",
+       "Perancangan dan implementasi sistem kontrol daya mesin carding untuk aplikasi industri tekstil.", ["Industri", "Kontrol Motor"], ""],
+      ["2023", "☀️", "Simulasi PLTS Skala Kecil 50 Wp",
+       "Simulasi sistem solar PV skala kecil menggunakan panel surya 50 Wp.", ["Solar PV", "Energi Terbarukan"], ""],
+      ["2023", "🛡️", "Sistem Keamanan Mesin Berbasis Sensor",
+       "Kontrol keamanan mesin dengan deteksi transmitter–receiver untuk implementasi di industri.", ["Sensor", "Safety"], ""],
+      ["2026", "🎂", "Website Ucapan Interaktif",
+       "Website dengan login Google, tiup lilin lewat mikrofon, dashboard live, dan QR berbentuk hati.", ["HTML", "JavaScript", "GitHub Pages"], ""]
+    ],
+
+    pendidikan: [                     // [periode, sekolah, jurusan/nilai, [kegiatan]]
+      ["Agu 2024 – Sekarang", "Universitas Diponegoro", "S1 Teknik Elektro",
+       ["MC Research Cup HME 2025", "Fasilitator LKMM-PD 2025", "MC SST (School of Science Technology) 2025",
+        "Staf Divisi Logistik PKKMB Teknik Elektro 2025", "Volunteer Parade ODM 2025", "Divisi Acara Smartimotion 7.0"]],
+      ["Jul 2021 – Mei 2024", "SMK Negeri 1 Kandeman", "Teknik Instalasi Tenaga Listrik · Nilai 87.51/100",
+       ["Ekstrakurikuler Atletik", "Anggota Majelis Perwakilan Kelas (MPK)"]],
+      ["Jul 2018 – Mei 2021", "SMP Negeri 1 Tulis", "Nilai 88.00/100", ["Ekstrakurikuler Karate", "Ekstrakurikuler Atletik"]]
+    ],
+
+    prestasi: [                       // [tahun, judul, tingkat]
+      ["2023", "Subah Running 10K", "Tingkat Kabupaten Batang · PASI Batang"],
+      ["2022", "Kamulyan Trail Run 6K", "Tingkat Kabupaten Batang · KGPA Batang"],
+      ["2022", "Mapala Kanpas 7.8K", "Tingkat Provinsi Jawa Tengah · Univ. Pekajangan Pekalongan"]
+    ],
+
+    galeri: [                         // [file, keterangan] — tambah sebanyak yang kamu mau
+      ["foto/sholeh/1.jpg", "Dokumentasi kegiatan"],
+      ["foto/sholeh/2.jpg", "Dokumentasi kegiatan"],
+      ["foto/sholeh/3.jpg", "Dokumentasi kegiatan"],
+      ["foto/sholeh/4.jpg", "Dokumentasi kegiatan"],
+      ["foto/sholeh/5.jpg", "Dokumentasi kegiatan"],
+      ["foto/sholeh/6.jpg", "Dokumentasi kegiatan"]
+    ],
+
+    kontak: [                         // [emoji, label, link] — link kosong = tidak ditampilkan
+      ["✉️", "sholehs558@gmail.com", "mailto:sholehs558@gmail.com"],
+      ["💼", "LinkedIn", ""],         // tempel link profil LinkedIn lengkap, mis. https://www.linkedin.com/in/...
       ["📸", "Instagram", ""],
-      ["💼", "LinkedIn", ""],
-      ["✉️", "Email", ""]
+      ["🐙", "GitHub", "https://github.com/Wazxrong06"]
     ]
   };
 </script>
@@ -67,6 +122,7 @@
   :root { --panel: rgba(30,14,36,.62); --panel2: rgba(255,255,255,.06); --line: rgba(200,210,255,.13);
     --ink: #f6f3fb; --muted: #c9bfd8; --accent: #8fb8ff; --accent2: #b28cff; --gold: #ffd34f; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body { font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden;
     background: linear-gradient(180deg, #120b22 0%, #261440 32%, #4a2150 60%, #8a3a55 84%, #c9665a 100%) fixed; }
   .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -106,22 +162,22 @@
   h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 14px; font-weight: 700; }
 
   .hero { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; background: linear-gradient(135deg, rgba(70,60,140,.55), rgba(40,16,48,.6) 60%); }
-  .avatar { width: 130px; height: 130px; border-radius: 50%; padding: 4px; flex-shrink: 0;
+  .hero > div:last-child { flex: 1; min-width: 240px; }
+  .avatar { width: 140px; height: 140px; border-radius: 50%; padding: 4px; flex-shrink: 0;
     background: conic-gradient(var(--accent), var(--accent2), var(--gold), var(--accent)); animation: spin 8s linear infinite; }
   .avatar > div { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #241a3a; animation: spin 8s linear infinite reverse;
     display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 900; color: var(--accent); }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
   @keyframes spin { to { transform: rotate(360deg) } }
   .hero .role { color: var(--accent); font-weight: 700; font-size: .95rem; letter-spacing: .5px; }
   .hero h1 { font-weight: 900; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.1; margin-top: 4px; }
-  .hero p { color: var(--muted); margin-top: 8px; max-width: 620px; line-height: 1.6; }
+  .hero p { color: var(--muted); margin-top: 8px; max-width: 760px; line-height: 1.65; font-size: .95rem; }
   .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
   .tag { font-size: .8rem; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.07); }
   .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: .88rem; text-decoration: none; color: #fff;
     background: linear-gradient(90deg, var(--accent), var(--accent2)); }
   .btn.ghost { background: rgba(255,255,255,.08); border: 1px solid var(--line); }
-  .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
 
   .tile .k { font-size: .78rem; color: var(--muted); font-weight: 600; }
   .tile .v { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; margin-top: 6px; font-variant-numeric: tabular-nums; }
@@ -150,30 +206,73 @@
   .chip { padding: 8px 14px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--line); font-size: .85rem; font-weight: 600; transition: transform .2s, border-color .2s; }
   .chip:hover { transform: translateY(-2px); border-color: var(--accent); }
 
+  /* pengalaman kerja */
+  .jobs { display: grid; gap: 14px; }
+  .job { display: grid; grid-template-columns: auto 1fr; gap: 16px; background: var(--panel2); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .job .logo { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+  .job .when { color: var(--accent); font-weight: 700; font-size: .78rem; }
+  .job h4 { font-size: 1.05rem; font-weight: 800; margin-top: 2px; }
+  .job .at { color: var(--muted); font-size: .88rem; margin-top: 2px; }
+  .pts { margin-top: 10px; padding-left: 18px; color: var(--muted); font-size: .88rem; line-height: 1.6; }
+  .pts li::marker { color: var(--accent); }
+  .job .img { grid-column: 1 / -1; border-radius: 12px; overflow: hidden; max-height: 280px; }
+  .job .img img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+  @media (max-width: 560px) { .job { grid-template-columns: 1fr; } }
+
+  /* proyek */
   .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 14px; }
-  .proj { background: var(--panel2); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 8px;
+  .proj { background: var(--panel2); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column;
     transition: transform .25s, border-color .25s, box-shadow .25s; }
   .proj:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 30px rgba(120,140,255,.18); }
-  .proj .em { font-size: 2rem; }
-  .proj h4 { font-size: 1.05rem; font-weight: 800; }
-  .proj p { color: var(--muted); font-size: .88rem; line-height: 1.55; flex: 1; }
+  .proj .img { aspect-ratio: 16/9; overflow: hidden; background: #241a3a; }
+  .proj .img img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; transition: transform .5s; }
+  .proj:hover .img img { transform: scale(1.05); }
+  .proj .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .proj .head { display: flex; align-items: center; gap: 10px; }
+  .proj .em { font-size: 1.8rem; }
+  .proj .yr { margin-left: auto; font-size: .75rem; font-weight: 700; color: var(--gold); background: rgba(255,211,79,.12); padding: 4px 10px; border-radius: 999px; }
+  .proj h4 { font-size: 1.02rem; font-weight: 800; line-height: 1.3; }
+  .proj p { color: var(--muted); font-size: .86rem; line-height: 1.55; flex: 1; }
   .proj .tech { display: flex; flex-wrap: wrap; gap: 6px; }
   .proj .tech span { font-size: .72rem; padding: 4px 9px; border-radius: 999px; background: rgba(143,184,255,.15); color: #cfe0ff; font-weight: 600; }
-  .proj a { color: var(--accent); font-weight: 700; font-size: .85rem; text-decoration: none; }
 
+  /* timeline organisasi & pendidikan */
   .tl { position: relative; padding-left: 22px; }
   .tl::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), var(--accent2)); }
   .tl > div { position: relative; padding-bottom: 18px; }
   .tl > div::before { content: ""; position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(143,184,255,.2); }
   .tl small { color: var(--accent); font-weight: 700; font-size: .78rem; }
   .tl b { display: block; margin: 2px 0; }
-  .tl p { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+  .tl .at { color: var(--ink); opacity: .85; font-size: .88rem; }
+  .tl .pts { margin-top: 6px; }
 
-  .contact { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 10px; }
-  .contact a, .contact span { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 14px; background: var(--panel2); border: 1px solid var(--line);
-    color: var(--ink); text-decoration: none; font-weight: 700; transition: transform .2s, border-color .2s; }
+  /* prestasi */
+  .awards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+  .award { display: flex; gap: 12px; align-items: center; background: var(--panel2); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .award .m { font-size: 2rem; }
+  .award b { display: block; font-size: .95rem; }
+  .award small { color: var(--muted); font-size: .78rem; line-height: 1.4; display: block; }
+  .award .y { color: var(--gold); font-weight: 700; font-size: .75rem; }
+
+  /* galeri */
+  .gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+  .gal figure { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; background: #241a3a; cursor: zoom-in; }
+  .gal img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+  .gal figure:hover img { transform: scale(1.06); }
+  .gal figcaption { position: absolute; inset: auto 0 0 0; padding: 26px 12px 10px; font-size: .82rem; font-weight: 600; background: linear-gradient(transparent, rgba(0,0,0,.75)); }
+  .empty { grid-column: 1 / -1; color: var(--muted); font-size: .9rem; line-height: 1.6; background: var(--panel2); border: 1px dashed var(--line); border-radius: 14px; padding: 16px; }
+  .empty code { color: var(--accent); }
+
+  .lb { position: fixed; inset: 0; z-index: 50; background: rgba(10,8,20,.9); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb img { max-width: 100%; max-height: 80vh; border-radius: 12px; }
+  .lb p { margin-top: 12px; font-weight: 600; text-align: center; }
+
+  .contact { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+  .contact a { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 14px; background: var(--panel2); border: 1px solid var(--line);
+    color: var(--ink); text-decoration: none; font-weight: 700; transition: transform .2s, border-color .2s; overflow-wrap: anywhere; }
   .contact a:hover { transform: translateY(-3px); border-color: var(--accent); }
-  .contact span { opacity: .45; }
   .contact .e { font-size: 1.3rem; }
 
   footer { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 30px; }
@@ -199,15 +298,16 @@
         <div class="tags" id="tags"></div>
         <div class="cta">
           <a class="btn" href="#proyek">Lihat proyek ➜</a>
+          <a class="btn ghost" href="#pengalaman">Pengalaman</a>
           <a class="btn ghost" href="#kontak">Hubungi aku</a>
         </div>
       </div>
     </section>
 
     <section class="card c3 tile" style="--d:.15s"><span class="ic">🎂</span><div class="k">Umur</div><div class="v" id="tUmur">–</div><div class="s" id="tUmurS"></div></section>
-    <section class="card c3 tile" style="--d:.2s"><span class="ic">🌍</span><div class="k">Sudah hidup</div><div class="v" id="tHari">–</div><div class="s">hari di bumi</div></section>
-    <section class="card c3 tile" style="--d:.25s"><span class="ic">🚀</span><div class="k">Proyek</div><div class="v" id="tProyek">–</div><div class="s">yang sudah dibuat</div></section>
-    <section class="card c3 tile" style="--d:.3s"><span class="ic">🛠️</span><div class="k">Keahlian</div><div class="v" id="tSkill">–</div><div class="s">skill & tools</div></section>
+    <section class="card c3 tile" style="--d:.2s"><span class="ic">🏅</span><div class="k">Prestasi</div><div class="v" id="tPrestasi">–</div><div class="s">lomba lari</div></section>
+    <section class="card c3 tile" style="--d:.25s"><span class="ic">🚀</span><div class="k">Proyek</div><div class="v" id="tProyek">–</div><div class="s">yang sudah dikerjakan</div></section>
+    <section class="card c3 tile" style="--d:.3s"><span class="ic">🤝</span><div class="k">Pengalaman</div><div class="v" id="tOrg">–</div><div class="s">kerja & organisasi</div></section>
 
     <section class="card c8" style="--d:.35s">
       <h3 id="cdTitle">Menuju ulang tahun berikutnya</h3>
@@ -225,18 +325,27 @@
 
     <section class="card c4" style="--d:.4s"><h3>Info singkat</h3><div class="list" id="info"></div></section>
 
-    <section class="card c6" style="--d:.45s"><h3>Keahlian</h3><div id="skills"></div></section>
-    <section class="card c6" style="--d:.5s"><h3>Tools yang dipakai</h3><div class="chips" id="alat"></div></section>
+    <section class="card c12" style="--d:.45s" id="pengalaman"><h3>Pengalaman kerja</h3><div class="jobs" id="jobs"></div></section>
 
-    <section class="card c12" style="--d:.55s" id="proyek"><h3>Proyek</h3><div class="projects" id="projects"></div></section>
+    <section class="card c6" style="--d:.5s"><h3>Keahlian</h3><div id="skills"></div></section>
+    <section class="card c6" style="--d:.55s"><h3>Kompetensi & teknologi</h3><div class="chips" id="alat"></div></section>
 
-    <section class="card c12" style="--d:.6s"><h3>Pengalaman & organisasi</h3><div class="tl" id="tl"></div></section>
+    <section class="card c12" style="--d:.6s" id="proyek"><h3>Proyek</h3><div class="projects" id="projects"></div></section>
 
-    <section class="card c12" style="--d:.65s" id="kontak"><h3>Kontak</h3><div class="contact" id="contact"></div></section>
+    <section class="card c6" style="--d:.65s"><h3>Pengalaman organisasi</h3><div class="tl" id="org"></div></section>
+    <section class="card c6" style="--d:.7s"><h3>Pendidikan</h3><div class="tl" id="edu"></div></section>
+
+    <section class="card c12" style="--d:.75s"><h3>Prestasi</h3><div class="awards" id="awards"></div></section>
+
+    <section class="card c12" style="--d:.8s"><h3>Galeri & dokumentasi</h3><div class="gal" id="gal"></div></section>
+
+    <section class="card c12" style="--d:.85s" id="kontak"><h3>Kontak</h3><div class="contact" id="contact"></div></section>
   </div>
 
   <footer>© <span id="year"></span> <span id="foot"></span></footer>
 </div>
+
+<div class="lb" id="lb"><img id="lbImg" alt=""><p id="lbCap"></p></div>
 
 <script>
   const $ = id => document.getElementById(id);
@@ -245,10 +354,24 @@
   const fmt = n => n.toLocaleString("id-ID");
   const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
   const tgl = d => `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
-  const bln = d => `${bulan[d.getMonth()]} ${d.getFullYear()}`;
   const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const pts = arr => arr && arr.length ? `<ul class="pts">${arr.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : "";
   const lahir = parse(PORTO.lahir);
   const hariLahir = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][lahir.getDay()];
+
+  function lightbox(src, cap) { $("lbImg").src = src; $("lbCap").textContent = cap || ""; $("lb").classList.add("open"); }
+  $("lb").onclick = () => $("lb").classList.remove("open");
+
+  // pasang foto; kalau file belum ada, wadahnya disembunyikan
+  function pasangFoto(wadah, src, cap) {
+    if (!src) { wadah.remove(); return; }
+    const im = new Image();
+    im.alt = cap || ""; im.loading = "lazy";
+    im.onload = () => wadah.appendChild(im);
+    im.onerror = () => wadah.remove();
+    im.onclick = () => lightbox(src, cap);
+    im.src = src;
+  }
 
   // ---- Profil ----
   $("peran").textContent = PORTO.peran;
@@ -256,7 +379,7 @@
   $("tagline").textContent = PORTO.tagline;
   $("foot").textContent = PORTO.nama;
   $("year").textContent = new Date().getFullYear();
-  [`🎂 ${tgl(lahir)}`, `📍 ${PORTO.kotaLahir}`, `☪️ Islam`, `🗓️ Lahir hari ${hariLahir}`]
+  [`🎂 ${tgl(lahir)}`, `📍 Lahir di ${PORTO.kotaLahir}`, `🏠 ${PORTO.domisili}`, `☪️ Islam`, `🗓️ Lahir hari ${hariLahir}`]
     .forEach(t => $("tags").appendChild(el("span", "tag", esc(t))));
   const av = new Image();
   av.onload = () => { $("avatar").textContent = ""; $("avatar").appendChild(av); };
@@ -274,22 +397,58 @@
       const t = setInterval(() => { n = Math.min(v, n + 2); lbl.textContent = n + "%"; if (n >= v) clearInterval(t); }, 25);
     }, 700);
   });
-  PORTO.proyek.forEach(([e, j, d, tech, link]) => {
-    $("projects").appendChild(el("article", "proj",
-      `<div class="em">${e}</div><h4>${esc(j)}</h4><p>${esc(d)}</p>
-       <div class="tech">${tech.map(t => `<span>${esc(t)}</span>`).join("")}</div>
-       ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">Lihat proyek ↗</a>` : ""}`));
+
+  PORTO.kerja.forEach(([when, pos, co, loc, list, foto]) => {
+    const j = el("article", "job", `<div class="logo">⚡</div>
+      <div><div class="when">${esc(when)}</div><h4>${esc(pos)}</h4><div class="at">${esc(co)} · ${esc(loc)}</div>${pts(list)}</div>
+      <div class="img"></div>`);
+    pasangFoto(j.querySelector(".img"), foto, `${pos} — ${co}`);
+    $("jobs").appendChild(j);
   });
-  PORTO.pengalaman.forEach(([d, j, c]) => $("tl").appendChild(el("div", "", `<small>${bln(parse(d))}</small><b>${esc(j)}</b><p>${esc(c)}</p>`)));
-  PORTO.kontak.forEach(([e, k, link]) => {
-    $("contact").appendChild(link
-      ? el("a", "", `<span class="e">${e}</span>${esc(k)}`)
-      : el("span", "", `<span class="e">${e}</span>${esc(k)} <small>(belum diisi)</small>`));
-    const a = $("contact").lastElementChild;
-    if (link) { a.href = link; a.target = "_blank"; a.rel = "noopener"; }
+
+  PORTO.proyek.forEach(([yr, e, j, d, tags, foto]) => {
+    const p = el("article", "proj", `<div class="img"></div><div class="body">
+      <div class="head"><span class="em">${e}</span><span class="yr">${esc(yr)}</span></div>
+      <h4>${esc(j)}</h4><p>${esc(d)}</p>
+      <div class="tech">${tags.map(t => `<span>${esc(t)}</span>`).join("")}</div></div>`);
+    pasangFoto(p.querySelector(".img"), foto, j);
+    $("projects").appendChild(p);
   });
+
+  PORTO.organisasi.forEach(([when, div, org, list]) =>
+    $("org").appendChild(el("div", "", `<small>${esc(when)}</small><b>${esc(div)}</b><div class="at">${esc(org)}</div>${pts(list)}`)));
+  PORTO.pendidikan.forEach(([when, sch, sub, list]) =>
+    $("edu").appendChild(el("div", "", `<small>${esc(when)}</small><b>${esc(sch)}</b><div class="at">${esc(sub)}</div>${pts(list)}`)));
+  PORTO.prestasi.forEach(([y, j, lvl], i) =>
+    $("awards").appendChild(el("div", "award", `<span class="m">${["🥇", "🏅", "🏃"][i % 3]}</span><div><span class="y">${esc(y)}</span><b>${esc(j)}</b><small>${esc(lvl)}</small></div>`)));
+
+  // galeri: hanya foto yang filenya ada yang tampil
+  let adaFoto = 0;
+  PORTO.galeri.forEach(([src, cap]) => {
+    const im = new Image();
+    im.alt = cap; im.loading = "lazy";
+    im.onload = () => {
+      adaFoto++; $("galEmpty")?.remove();
+      const f = el("figure", "", `<figcaption>${esc(cap)}</figcaption>`);
+      f.prepend(im); f.onclick = () => lightbox(src, cap);
+      $("gal").appendChild(f);
+    };
+    im.src = src;
+  });
+  $("gal").appendChild(el("p", "empty",
+    `📷 Belum ada foto. Taruh foto di folder <code>foto/sholeh/</code> dengan nama <code>1.jpg</code>, <code>2.jpg</code>, dst., lalu upload ke GitHub.`));
+  $("gal").lastElementChild.id = "galEmpty";
+
+  PORTO.kontak.filter(k => k[2]).forEach(([e, k, link]) => {
+    const a = el("a", "", `<span class="e">${e}</span>${esc(k)}`);
+    a.href = link;
+    if (!link.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener"; }
+    $("contact").appendChild(a);
+  });
+
   $("tProyek").textContent = PORTO.proyek.length;
-  $("tSkill").textContent = PORTO.keahlian.length + PORTO.alat.length;
+  $("tPrestasi").textContent = PORTO.prestasi.length;
+  $("tOrg").textContent = PORTO.kerja.length + PORTO.organisasi.length;
 
   // ---- Angka live ----
   function umur(now) {
@@ -302,7 +461,6 @@
     const now = new Date(), u = umur(now);
     $("tUmur").textContent = u.y + " th";
     $("tUmurS").textContent = `${u.m} bulan ${u.d} hari`;
-    $("tHari").textContent = fmt(Math.floor((now - lahir) / 864e5));
     const thisYear = new Date(now.getFullYear(), lahir.getMonth(), lahir.getDate());
     const isToday = now.toDateString() === thisYear.toDateString();
     const next = now < thisYear ? thisYear : new Date(now.getFullYear() + 1, lahir.getMonth(), lahir.getDate());
@@ -314,7 +472,7 @@
     $("cdM").textContent = String(Math.floor(left / 6e4) % 60).padStart(2, "0");
     $("cdS").textContent = String(Math.floor(left / 1e3) % 60).padStart(2, "0");
     const p = isToday ? 100 : (now - prev) / (next - prev) * 100;
-    $("progL").textContent = `Perjalanan umur ${u.y} → ${u.y + 1}`;
+    $("progL").textContent = `Perjalanan umur ${u.y} → ${u.y + 1} · ${fmt(Math.floor((now - lahir) / 864e5))} hari di bumi`;
     $("progP").textContent = p.toFixed(1) + "%";
     $("progF").style.width = p + "%";
   }
