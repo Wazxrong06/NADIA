@@ -3,7 +3,7 @@
    emailBoleh: hanya akun Google ini yang boleh masuk
    ============================================================ */
 const AUTH = {
-  clientId: "",
+  clientId: "190876029376-6fapvgqefs0jjk1uno8aqngulsl29mfl.apps.googleusercontent.com",
   emailBoleh: [
     "email-sholeh@gmail.com",
     "email-nadia@gmail.com"
