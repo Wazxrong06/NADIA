@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tentang Dia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Pacifico&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+<script>
+  /* ======================= GANTI DI SINI ======================= */
+  const PROFIL = {
+    nama: "Nadia Hidatul Zanna",
+    panggilan: "Nadia",
+    tagline: "Orang paling lucu, cantik banget, paling sabar banget 💗",
+    foto: "foto/5.jpg",
+    lahir: "2006-11-14",            // format TAHUN-BULAN-TANGGAL
+    kotaLahir: "Goeboeg, Jawa Tengah",
+    bersamaSejak: "2026-08-01",     // tanggal mulai dekat, kosongkan "" kalau tidak perlu
+    spotify: "https://open.spotify.com/playlist/37i9dQZF1E8L08rpR1HfDs",  // tempel link playlist Spotify, mis. "https://open.spotify.com/playlist/xxxx"
+    labelBersama: "Hari sejak dekat",
+
+    info: [                         // kartu info singkat
+      ["🎓", "Jurusan", "Chemical Engineering (Teknik Kimia)"],
+      ["📍", "Asal", "Goeboeg, Jawa Tengah"],
+      ["🩸", "Gol. darah", "B"],
+      ["📏", "Tinggi", "158 cm"]
+    ],
+
+    favorit: [
+      ["☕", "Kopi", "Apa saja, terutama yang pahit"],
+      ["🎨", "Warna", "Pink pastel"],
+      ["🎵", "Lagu", "Semua lagunya lany"],
+      ["🎬", "Film", "Film apa saja yang dia suka"],
+      ["📚", "Bacaan", "Novel"]
+    ],
+
+    statistik: [                    // nilai 0–100, bebas dibikin lucu
+      ["Lucu", 90],
+      ["Cantik", 1000],
+      ["Sabar", 100],
+      ["Suka ngambek", 35],
+      ["Doyan jajan", 95],
+      ["Bangun pagi", 20]
+    ],
+
+    alasan: [
+      "Senyummu yang bikin capekku hilang",
+      "Cara kamu dengerin cerita-ceritaku nanggepinya",
+      "Kalau ketawa yang paling heboh",
+      "Punya pandangan yang beda",
+      "Aku suka semuanya yang ada pada kamu lillahitaalla"
+    ],
+
+    timeline: [                     // [tanggal, judul, cerita]
+      ["2026-08-01", "Ketemu di PPKO Ormawa FST 💕", "Gara-gara Forum Studi Teknik, kita ketemu. Mungkin kalau aku nggak ambil project ini, aku nggak akan pernah kenal kamu. Mungkin itu yang namanya takdir."],
+      ["2026-11-14", "Ulang tahun ke-20 🎂", "Ulang tahun pertamamu yang aku rayakan."]
+    ],
+
+    fotoCantik: [                   // [file, tulisan di polaroid] — urutan = urutan dijepit di tali
+      ["foto/hero.jpg", "Tepi laut 🌊"],
+      ["foto/1.jpg", "kamu dan makassar 💗"],
+      ["foto/tentang.jpg", "Me time 💕"],
+      ["foto/2.jpg", "Ngopi dulu ☕"],
+      ["foto/3.jpg", "My angel ! 📸"],
+      ["foto/4.jpg", "Mirror selfie ✨"],
+      ["foto/5.jpg", "Dinner look 🍽️"],
+      ["foto/6.jpg", "Ekspresi random 😆"],
+      ["foto/7.jpg", "Empruy 🌿"],
+      ["foto/8.jpg", "Cantik level max~"],
+      ["foto/9.jpg", "Lucu banget"],
+      ["foto/10.jpg", "Senyum manis 😊"],
+      ["foto/11.jpg", "Burger dulu 🍔"],
+      ["foto/12.jpg", "Nyam nyam~"],
+      ["foto/13.jpg", "Fuck Yu 🤟"],
+      ["foto/14.jpg", "Siap berangkat 🛵"],
+      ["foto/15.jpg", "Rebahan di gunung 🌼"],
+      ["foto/16.jpg", "Sunrise di puncak ⛰️"],
+      ["foto/17.jpg", "Pose di depan pintu 🚪"],
+      ["foto/18.jpg", "Bersinar ✨"],
+      ["foto/profil-nadia.jpg", "Melet dulu 😛"]
+    ]
+  };
+</script>
+<style>
+  :root { --bg: #170b1f; --panel: rgba(30,14,36,.62); --panel2: rgba(255,255,255,.06); --line: rgba(255,200,220,.12);
+    --ink: #fbf1f5; --muted: #d4b8c8; --accent: #ff5c93; --accent2: #9b7bff; --gold: #ffd34f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden;
+    background: linear-gradient(180deg, #170b1f 0%, #2e1233 30%, #5a2042 58%, #96384f 82%, #d4675a 100%) fixed; }
+  /* langit senja: cahaya matahari + bokeh */
+  .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .sky::before { content: ""; position: absolute; left: 50%; bottom: -30vh; width: 120vw; height: 70vh; transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(255,214,150,.55) 0%, rgba(255,140,110,.25) 35%, transparent 70%); }
+  .bokeh { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,226,180,.9), rgba(255,170,140,0) 70%);
+    animation: twinkle var(--t) ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: .15; transform: scale(.7) } to { opacity: .8; transform: scale(1.1) } }
+
+  /* hati 3D melayang */
+  .hearts { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; perspective: 700px; }
+  .hearts.front { z-index: 5; }
+  .h3d { position: absolute; bottom: -80px; animation: rise var(--dur) linear infinite; animation-delay: var(--delay); }
+  .h3d .spin { animation: spin3d var(--sp) linear infinite; transform-style: preserve-3d; }
+  .h3d svg { display: block; width: var(--s); height: var(--s); filter: drop-shadow(0 0 10px rgba(255,90,140,.55)); }
+  @keyframes rise {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    10% { opacity: var(--o); }
+    50% { transform: translate3d(var(--sx), -55vh, 0); }
+    90% { opacity: var(--o); }
+    100% { transform: translate3d(0, -115vh, 0); opacity: 0; }
+  }
+  @keyframes spin3d { from { transform: rotateY(0) rotateZ(-8deg) } to { transform: rotateY(360deg) rotateZ(8deg) } }
+
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* top */
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  .top a, .top button { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; background: none; border: 0; cursor: pointer; font-family: inherit; }
+  .top a:hover, .top button:hover { color: var(--accent); }
+  .live { margin-left: auto; font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5fe39a; box-shadow: 0 0 10px #5fe39a; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .3 } }
+
+  /* grid */
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 20px; min-width: 0;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(20,5,20,.35);
+    opacity: 0; transform: translateY(24px); animation: up .7s forwards; animation-delay: var(--d, 0s); }
+  @keyframes up { to { opacity: 1; transform: none; } }
+  .c12 { grid-column: span 12; } .c8 { grid-column: span 8; } .c6 { grid-column: span 6; } .c4 { grid-column: span 4; } .c3 { grid-column: span 3; }
+  @media (max-width: 900px) { .c8, .c6, .c4 { grid-column: span 12; } .c3 { grid-column: span 6; } }
+  h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 14px; font-weight: 700; }
+
+  /* profil */
+  .hero { display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(120,40,80,.55), rgba(40,16,48,.6) 60%); position: relative; overflow: hidden; }
+  .avatar { width: 130px; height: 130px; border-radius: 50%; padding: 4px; flex-shrink: 0;
+    background: conic-gradient(var(--accent), var(--accent2), var(--gold), var(--accent)); animation: spin 8s linear infinite; }
+  .avatar > div { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: var(--panel2); animation: spin 8s linear infinite reverse;
+    display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 75%; transform: scale(2.4); transform-origin: 49% 47%; }
+  @keyframes spin { to { transform: rotate(360deg) } }
+  .hero h1 { font-weight: 900; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.1; }
+  .hero .nick { font-family: "Pacifico", cursive; color: var(--accent); font-size: 1.3rem; }
+  .hero p { color: var(--muted); margin-top: 8px; max-width: 560px; line-height: 1.6; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tag { font-size: .8rem; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.07); }
+
+  /* stat tile */
+  .tile .k { font-size: .78rem; color: var(--muted); font-weight: 600; }
+  .tile .v { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .tile .s { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  .tile .ic { font-size: 1.4rem; float: right; }
+
+  /* countdown */
+  .cd { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cd div { flex: 1; min-width: 64px; background: var(--panel2); border-radius: 14px; padding: 14px 6px; text-align: center; }
+  .cd b { display: block; font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 900; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .cd span { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .prog { margin-top: 18px; }
+  .prog .row { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); margin-bottom: 6px; }
+  .track { height: 10px; background: var(--panel2); border-radius: 99px; overflow: hidden; }
+  .fill { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+
+  /* info & favorit */
+  .list { display: grid; gap: 10px; }
+  .item { display: flex; gap: 12px; align-items: center; background: var(--panel2); border-radius: 14px; padding: 12px 14px; }
+  .item .e { font-size: 1.4rem; }
+  .item small { display: block; color: var(--muted); font-size: .75rem; }
+  .item b { font-weight: 700; font-size: .95rem; }
+  .fav { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+  .fav .item { transition: transform .2s; }
+  .fav .item:hover { transform: translateY(-3px); }
+
+  /* statistik */
+  .stat { margin-bottom: 14px; }
+  .stat .row { display: flex; justify-content: space-between; font-size: .9rem; font-weight: 600; margin-bottom: 6px; }
+  .stat .row span:last-child { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* alasan */
+  .why li { list-style: none; padding: 10px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 10px; line-height: 1.5; }
+  .why li:last-child { border: 0; }
+  .why li::before { content: "💗"; }
+
+  /* timeline */
+  .tl { position: relative; padding-left: 22px; }
+  .tl::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), var(--accent2)); }
+  .tl > div { position: relative; padding-bottom: 18px; }
+  .tl > div::before { content: ""; position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(255,92,147,.2); }
+  .tl small { color: var(--accent); font-weight: 700; font-size: .78rem; }
+  .tl b { display: block; margin: 2px 0; }
+  .tl p { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+
+  /* foto cantik: dinding makrame */
+  .fc-card { color: #ffe6ee; overflow: hidden; position: relative;
+    background:
+      radial-gradient(circle at 12% 30%, rgba(255,220,170,.35) 0 3px, transparent 4px),
+      radial-gradient(circle at 85% 22%, rgba(255,220,170,.35) 0 4px, transparent 5px),
+      radial-gradient(circle at 70% 70%, rgba(255,220,170,.25) 0 3px, transparent 4px),
+      radial-gradient(circle at 25% 80%, rgba(255,220,170,.25) 0 5px, transparent 6px),
+      radial-gradient(ellipse at 50% 110%, rgba(255,190,130,.45) 0%, transparent 55%),
+      linear-gradient(180deg, #3b1a40 0%, #622a4f 50%, #9a4157 100%);
+    --rope: #f8dcd6; --rope-dark: #c48a92; --wood: #c99a64; }
+  .fc-title { font-family: "Caveat", cursive; font-size: clamp(2rem, 7vw, 3rem); font-weight: 700; text-align: center; line-height: 1;
+    color: #ffe3ea; text-shadow: 0 0 18px rgba(255,120,160,.6); }
+  .fc-sub { text-align: center; opacity: .75; font-size: .9rem; margin-top: 4px; }
+  .wall { position: relative; margin: 10px auto 0; }
+  .wall svg { position: absolute; inset: 0; overflow: visible; }
+  .rod { position: absolute; height: 14px; border-radius: 7px; z-index: 2;
+    background: linear-gradient(180deg, #e2b985 0%, var(--wood) 45%, #a8784a 100%); box-shadow: 0 6px 10px rgba(80,50,20,.25); }
+  .rod::before, .rod::after { content: ""; position: absolute; top: -1px; width: 16px; height: 16px; border-radius: 50%; background: #b88655; }
+  .rod::before { left: -6px; } .rod::after { right: -6px; }
+  .pol { position: absolute; z-index: 3; opacity: 0; }
+  .pol.in { animation: drop .9s cubic-bezier(.3,1.4,.5,1) forwards; animation-delay: var(--dl); }
+  @keyframes drop { from { opacity: 0; transform: translateY(-60px) } to { opacity: 1; transform: none } }
+  .sw { transform-origin: 50% 0; animation: sway var(--sd) ease-in-out infinite alternate; cursor: zoom-in; }
+  @keyframes sway { from { transform: rotate(calc(var(--r) - 2.5deg)) } to { transform: rotate(calc(var(--r) + 2.5deg)) } }
+  .pc { background: #fff; padding: 8px 8px 0; box-shadow: 0 10px 18px rgba(60,40,20,.22), 0 2px 4px rgba(60,40,20,.15); transition: transform .25s; }
+  .sw:hover .pc { transform: scale(1.06); }
+  .pc .img { aspect-ratio: 1; overflow: hidden; background: #ddd; }
+  .pc img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+  .pc figcaption { font-family: "Caveat", cursive; color: #4a3b2f; font-size: clamp(1rem, 2.6vw, 1.3rem); text-align: center; padding: 4px 2px 6px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pin { position: absolute; left: 50%; top: -16px; width: 12px; height: 30px; margin-left: -6px; z-index: 4; border-radius: 2px;
+    background: linear-gradient(90deg, #b9864f, #e0b47c 50%, #b9864f); box-shadow: 0 2px 3px rgba(0,0,0,.25); }
+  .pin::after { content: ""; position: absolute; left: 50%; top: 4px; bottom: 4px; width: 1px; background: rgba(90,55,25,.5); }
+  .pin::before { content: ""; position: absolute; left: -2px; right: -2px; top: 12px; height: 3px; background: #8d8d8d; border-radius: 2px; }
+  .ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; color: #8a7a6a; font-size: .7rem; padding: 6px; }
+  .lb { position: fixed; inset: 0; z-index: 50; background: rgba(20,15,25,.88); display: flex; align-items: center; justify-content: center; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb .pc { padding: 12px 12px 0; max-width: min(92vw, 480px); transform: rotate(-2deg); }
+  .lb .pc img { max-height: 70vh; height: auto; object-fit: contain; }
+  .lb figcaption { font-size: 1.8rem; white-space: normal; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="sky" id="sky"></div>
+<div class="hearts" id="hearts"></div>
+<div class="hearts front" id="heartsFront"></div>
+<div class="wrap">
+  <div class="top">
+    <a href="pilih.html">← Pilih dashboard</a>
+    <a href="index.html" id="back">🎂 Putar lagi ucapannya</a>
+    <button onclick="keluar()">Keluar</button>
+    <span class="live">Live</span>
+  </div>
+
+  <div class="grid">
+    <!-- Profil -->
+    <section class="card c12 hero" style="--d:.05s">
+      <div class="avatar"><div id="avatar">💗</div></div>
+      <div>
+        <div class="nick" id="nick"></div>
+        <h1 id="nama"></h1>
+        <p id="tagline"></p>
+        <div class="tags" id="tags"></div>
+      </div>
+    </section>
+
+    <!-- Tiles -->
+    <section class="card c3 tile" style="--d:.15s"><span class="ic">🎂</span><div class="k">Umur</div><div class="v" id="tUmur">–</div><div class="s" id="tUmurS"></div></section>
+    <section class="card c3 tile" style="--d:.2s"><span class="ic">🌍</span><div class="k">Sudah hidup</div><div class="v" id="tHari">–</div><div class="s">hari di bumi</div></section>
+    <section class="card c3 tile" style="--d:.25s"><span class="ic">💓</span><div class="k">Detak jantung (perkiraan)</div><div class="v" id="tDetak">–</div><div class="s">kali sejak lahir</div></section>
+    <section class="card c3 tile" style="--d:.3s" id="tileBersama"><span class="ic">🤝</span><div class="k" id="lblBersama"></div><div class="v" id="tBersama">–</div><div class="s" id="tBersamaS"></div></section>
+
+    <!-- Countdown -->
+    <section class="card c8" style="--d:.35s">
+      <h3 id="cdTitle">Menuju ulang tahun berikutnya</h3>
+      <div class="cd">
+        <div><b id="cdD">0</b><span>Hari</span></div>
+        <div><b id="cdH">0</b><span>Jam</span></div>
+        <div><b id="cdM">0</b><span>Menit</span></div>
+        <div><b id="cdS">0</b><span>Detik</span></div>
+      </div>
+      <div class="prog">
+        <div class="row"><span id="progL"></span><span id="progP"></span></div>
+        <div class="track"><div class="fill" id="progF"></div></div>
+      </div>
+    </section>
+
+    <!-- Info -->
+    <section class="card c4" style="--d:.4s"><h3>Info singkat</h3><div class="list" id="info"></div></section>
+
+    <!-- Favorit -->
+    <section class="card c12" style="--d:.45s"><h3>Hal-hal favorit</h3><div class="fav" id="fav"></div></section>
+
+    <!-- Playlist Spotify -->
+    <section class="card c12" style="--d:.48s" id="spotifyCard" hidden>
+      <h3>Playlist kesukaannya 🎧</h3>
+      <iframe id="spotify" style="width:100%;height:380px;border:0;border-radius:14px" loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </section>
+
+    <!-- Statistik -->
+    <section class="card c6" style="--d:.5s"><h3>Statistik (versi aku)</h3><div id="stats"></div></section>
+
+    <!-- Alasan -->
+    <section class="card c6" style="--d:.55s"><h3>Hal yang aku kagumi dari kamu</h3><ul class="why" id="why"></ul></section>
+
+    <!-- Timeline -->
+    <section class="card c12" style="--d:.6s"><h3>Waktu deket</h3><div class="tl" id="tl"></div></section>
+
+    <!-- Galeri -->
+    <!-- Foto Cantik -->
+    <section class="card c12 fc-card" style="--d:.65s" id="fotoCantik">
+      <div class="fc-title">Foto Cantik 📸</div>
+      <p class="fc-sub">Ketuk fotonya untuk lihat lebih besar</p>
+      <div class="wall" id="wall"></div>
+    </section>
+  </div>
+
+  <footer>Dibuat khusus untuk <span id="foot"></span> 💖</footer>
+</div>
+
+<div class="lb" id="lb"><figure class="pc"><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure></div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt = n => n.toLocaleString("id-ID");
+  const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const tgl = d => `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  // tombol ke ucapan hanya muncul di hari ulang tahun (atau mode ?preview untuk mencoba)
+  {
+    const [, bm, bd] = PROFIL.lahir.split("-").map(Number), now = new Date();
+    const preview = new URLSearchParams(location.search).has("preview");
+    if (preview) $("back").href = "index.html?preview";
+    else if (now.getMonth() + 1 === bm && now.getDate() === bd) $("back").href = "index.html";
+    else $("back").remove();
+  }
+
+  const lahir = parse(PROFIL.lahir);
+
+  const hariLahir = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][lahir.getDay()];
+
+  // ---- Profil ----
+  document.title = `Tentang ${PROFIL.panggilan}`;
+  $("nick").textContent = PROFIL.panggilan;
+  $("nama").textContent = PROFIL.nama;
+  $("tagline").textContent = PROFIL.tagline;
+  $("foot").textContent = PROFIL.panggilan;
+  [`🎂 ${tgl(lahir)}`, `📍 ${PROFIL.kotaLahir}`, `☪️ Islam`, `🗓️ Lahir hari ${hariLahir}`]
+    .forEach(t => $("tags").appendChild(el("span", "tag", esc(t))));
+  const av = new Image();
+  av.onload = () => { $("avatar").textContent = ""; $("avatar").appendChild(av); };
+  av.src = PROFIL.foto;
+
+  // ---- Daftar-daftar ----
+  const itemHTML = ([e, k, v]) => `<span class="e">${e}</span><div><small>${esc(k)}</small><b>${esc(v)}</b></div>`;
+  PROFIL.info.forEach(x => $("info").appendChild(el("div", "item", itemHTML(x))));
+  PROFIL.favorit.forEach(x => $("fav").appendChild(el("div", "item", itemHTML(x))));
+  PROFIL.alasan.forEach(x => $("why").appendChild(el("li", "", esc(x))));
+  PROFIL.timeline.forEach(([d, j, c]) => $("tl").appendChild(el("div", "", `<small>${tgl(parse(d))}</small><b>${esc(j)}</b><p>${esc(c)}</p>`)));
+  PROFIL.statistik.forEach(([k, v]) => {
+    const s = el("div", "stat", `<div class="row"><span>${esc(k)}</span><span>0%</span></div><div class="track"><div class="fill"></div></div>`);
+    $("stats").appendChild(s);
+    setTimeout(() => {
+      s.querySelector(".fill").style.width = v + "%";
+      const lbl = s.querySelector(".row span:last-child"); let n = 0;
+      const t = setInterval(() => { n = Math.min(v, n + 2); lbl.textContent = n + "%"; if (n >= v) clearInterval(t); }, 25);
+    }, 700);
+  });
+  // ---- Foto Cantik (dinding makrame) ----
+  const NS = "http://www.w3.org/2000/svg";
+  const rnd = i => { const x = Math.sin(i * 9301 + 49297) * 233280; return x - Math.floor(x); };
+  function svg(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    parent.appendChild(e); return e;
+  }
+  // tali: garis tebal + garis putus-putus di atasnya biar kelihatan terpilin
+  function rope(d, w, parent) {
+    svg("path", { d, fill: "none", stroke: "var(--rope-dark)", "stroke-width": w + 2, "stroke-linecap": "round" }, parent);
+    svg("path", { d, fill: "none", stroke: "var(--rope)", "stroke-width": w, "stroke-linecap": "round" }, parent);
+    svg("path", { d, fill: "none", stroke: "var(--rope-dark)", "stroke-width": w, "stroke-dasharray": "2 5", "stroke-linecap": "round" }, parent);
+  }
+
+  let lastW = 0, wallShown = false;
+  function buildWall() {
+    const W = Math.min($("fotoCantik").clientWidth - 40, 1000);
+    if (Math.abs(W - lastW) < 2) return;
+    lastW = W;
+    const cols = W < 480 ? 3 : W < 760 ? 4 : 5;
+    const wall = $("wall"); wall.innerHTML = "";
+    const sp = W / cols, pw = Math.min(sp * 0.9, 190), ph = pw + 36, rowH = ph + 46;
+    const rodY = 40, startY = rodY + 90;
+    const xs = [...Array(cols)].map((_, c) => sp * (c + .5));
+
+    const items = PROFIL.fotoCantik.map(([src, cap], i) => {
+      const c = i % cols, r = Math.floor(i / cols);
+      return { src, cap, i, c, x: xs[c], y: startY + r * rowH + (c % 2 ? rowH * .45 : 0) };
+    });
+    const ends = xs.map((_, c) => {
+      const last = items.filter(it => it.c === c).pop();
+      return (last ? last.y + ph : startY) + 50 + rnd(c) * 40;
+    });
+    const H = Math.max(...ends) + 90;
+    wall.style.width = W + "px"; wall.style.height = H + "px";
+    const s = svg("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}` }, wall);
+
+    rope(`M ${xs[0] - sp * .35} ${rodY + 4} L ${W / 2} 0 L ${xs[cols - 1] + sp * .35} ${rodY + 4}`, 3, s);
+    svg("circle", { cx: W / 2, cy: 0, r: 5, fill: "#9a8f80" }, s);
+    xs.forEach((x, c) => {
+      const e = ends[c];
+      rope(`M ${x} ${rodY + 6} C ${x + 3} ${(rodY + e) / 2}, ${x - 3} ${(rodY + e) / 2}, ${x} ${e}`, 7, s);
+      [-9, 0, 9].forEach((dx, k) => svg("circle", { cx: x + dx, cy: e + (k === 1 ? -4 : 4), r: 6, fill: "#e8cfa9", stroke: "#c9a57a" }, s));
+      for (let t = -8; t <= 8; t += 2)
+        svg("path", { d: `M ${x} ${e + 8} Q ${x + t * .6} ${e + 30} ${x + t * 1.4} ${e + 70 + rnd(c * 20 + t) * 10}`, fill: "none", stroke: "var(--rope-dark)", "stroke-width": 2.2, "stroke-linecap": "round" }, s);
+      svg("rect", { x: x - 7, y: e + 6, width: 14, height: 8, rx: 3, fill: "var(--rope-dark)" }, s);
+    });
+    for (let c = 0; c < cols - 1; c++) {
+      const a = xs[c], b = xs[c + 1], m = (a + b) / 2;
+      rope(`M ${a} ${rodY + 8} Q ${m} ${rodY + 80} ${b} ${rodY + 8}`, 6, s);
+      rope(`M ${a} ${rodY + 8} Q ${m} ${rodY + 50} ${b} ${rodY + 8}`, 4, s);
+    }
+    xs.forEach(x => svg("ellipse", { cx: x, cy: rodY + 9, rx: 9, ry: 7, fill: "var(--rope)", stroke: "var(--rope-dark)", "stroke-width": 2 }, s));
+
+    const rod = el("div", "rod");
+    rod.style.cssText = `left:-14px; width:${W + 28}px; top:${rodY}px`;
+    wall.appendChild(rod);
+
+    items.forEach(it => {
+      const f = el("div", "pol" + (wallShown ? " in" : ""));
+      const jitter = (rnd(it.i + 3) - .5) * sp * .12;
+      f.style.cssText = `left:${it.x - pw / 2 + jitter}px; top:${it.y}px; width:${pw}px; --dl:${.2 + it.i * .15}s`;
+      const rot = ((rnd(it.i) - .5) * 14).toFixed(1);
+      f.innerHTML = `<div class="sw" style="--r:${rot}deg; --sd:${(2.6 + rnd(it.i + 7) * 2).toFixed(2)}s">
+        <span class="pin"></span><figure class="pc"><div class="img"></div><figcaption></figcaption></figure></div>`;
+      const im = new Image();
+      im.src = it.src; im.alt = it.cap; im.loading = "lazy";
+      im.onerror = () => { const p = el("div", "ph"); p.textContent = it.src; im.replaceWith(p); };
+      f.querySelector(".img").appendChild(im);
+      f.querySelector("figcaption").textContent = it.cap;
+      f.querySelector(".sw").onclick = () => { $("lbImg").src = it.src; $("lbCap").textContent = it.cap; $("lb").classList.add("open"); };
+      wall.appendChild(f);
+    });
+  }
+  $("lb").onclick = () => $("lb").classList.remove("open");
+  buildWall();
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(buildWall, 150); });
+  // foto baru "jatuh" ke tali saat bagian ini terlihat
+  new IntersectionObserver((es, o) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    wallShown = true;
+    document.querySelectorAll(".pol").forEach(p => p.classList.add("in"));
+    o.disconnect();
+  }), { threshold: .15 }).observe($("fotoCantik"));
+
+  // ---- Angka live ----
+  if (!PROFIL.bersamaSejak) $("tileBersama").style.display = "none";
+  $("lblBersama").textContent = PROFIL.labelBersama;
+
+  function umur(now) {
+    let y = now.getFullYear() - lahir.getFullYear(), m = now.getMonth() - lahir.getMonth(), d = now.getDate() - lahir.getDate();
+    if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+    if (m < 0) { y--; m += 12; }
+    return { y, m, d };
+  }
+
+  function tick() {
+    const now = new Date();
+    const u = umur(now);
+    $("tUmur").textContent = u.y + " th";
+    $("tUmurS").textContent = `${u.m} bulan ${u.d} hari`;
+    const ms = now - lahir;
+    $("tHari").textContent = fmt(Math.floor(ms / 864e5));
+    $("tDetak").textContent = fmt(Math.floor(ms / 1000 * 80 / 60)); // ~80 bpm
+
+    if (PROFIL.bersamaSejak) {
+      const b = parse(PROFIL.bersamaSejak), hari = Math.floor((now - b) / 864e5);
+      $("tBersama").textContent = fmt(hari);
+      $("tBersamaS").textContent = `sejak ${tgl(b)}`;
+    }
+
+    // ulang tahun berikutnya (kalau hari ini ultah, tampilkan perayaan)
+    const thisYear = new Date(now.getFullYear(), lahir.getMonth(), lahir.getDate());
+    const isToday = now.toDateString() === thisYear.toDateString();
+    const next = now < thisYear ? thisYear : new Date(now.getFullYear() + 1, lahir.getMonth(), lahir.getDate());
+    const prev = new Date(next.getFullYear() - 1, lahir.getMonth(), lahir.getDate());
+    let left = isToday ? 0 : next - now;
+    $("cdTitle").textContent = isToday ? "🎉 Hari ini ulang tahunmu!" : `Menuju ulang tahun ke-${next.getFullYear() - lahir.getFullYear()} · ${tgl(next)}`;
+    $("cdD").textContent = Math.floor(left / 864e5);
+    $("cdH").textContent = String(Math.floor(left / 36e5) % 24).padStart(2, "0");
+    $("cdM").textContent = String(Math.floor(left / 6e4) % 60).padStart(2, "0");
+    $("cdS").textContent = String(Math.floor(left / 1e3) % 60).padStart(2, "0");
+    const p = isToday ? 100 : (now - prev) / (next - prev) * 100;
+    $("progL").textContent = `Perjalanan umur ${u.y} → ${u.y + 1}`;
+    $("progP").textContent = p.toFixed(1) + "%";
+    $("progF").style.width = p + "%";
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ---- Spotify: ubah link biasa jadi link embed ----
+  {
+    const m = (PROFIL.spotify || "").match(/(playlist|album|track)[\/:]([A-Za-z0-9]+)/);
+    if (m) {
+      $("spotify").src = `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0`;
+      $("spotifyCard").hidden = false;
+    }
+  }
+
+  // ---- Latar: bokeh senja + hati 3D melayang ----
+  for (let i = 0; i < 40; i++) {
+    const b = el("span", "bokeh"), s = 4 + Math.random() * 14;
+    b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}%;top:${20 + Math.random() * 80}%;--t:${2 + Math.random() * 4}s;animation-delay:${-Math.random() * 4}s`;
+    $("sky").appendChild(b);
+  }
+  // hati dengan gradasi + kilau putih supaya terlihat 3D
+  const heartSVG = id => `<svg viewBox="0 0 100 92">
+    <defs>
+      <radialGradient id="hg${id}" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#ffc2d6"/><stop offset="35%" stop-color="#ff5c93"/>
+        <stop offset="75%" stop-color="#d81b5a"/><stop offset="100%" stop-color="#7a0c33"/>
+      </radialGradient>
+    </defs>
+    <path d="M50 90 C 20 68, 0 50, 0 28 C 0 12, 12 0, 27 0 C 38 0, 46 6, 50 15 C 54 6, 62 0, 73 0 C 88 0, 100 12, 100 28 C 100 50, 80 68, 50 90 Z" fill="url(#hg${id})"/>
+    <ellipse cx="28" cy="24" rx="12" ry="7" fill="#fff" opacity=".55" transform="rotate(-35 28 24)"/>
+    <ellipse cx="22" cy="36" rx="3" ry="2" fill="#fff" opacity=".5"/>
+  </svg>`;
+  const nHati = innerWidth < 600 ? 12 : 20;
+  for (let i = 0; i < nHati; i++) {
+    const s = 16 + Math.random() * 46, far = s < 30;
+    const h = el("div", "h3d", `<div class="spin">${heartSVG(i)}</div>`);
+    h.style.cssText = `left:${Math.random() * 96}%; --s:${s}px; --o:${far ? .45 : .9}; --dur:${12 + Math.random() * 14}s;
+      --delay:${-Math.random() * 26}s; --sx:${(Math.random() - .5) * 120}px; ${far ? "filter:blur(1.5px);" : ""}`;
+    h.querySelector(".spin").style.setProperty("--sp", (3 + Math.random() * 4) + "s");
+    // sebagian kecil hati melayang di depan kartu, sisanya di belakang
+    (i % 4 === 0 && !far ? $("heartsFront") : $("hearts")).appendChild(h);
+  }
+</script>
+</body>
+</html>

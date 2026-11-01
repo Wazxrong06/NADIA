@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pilih Dashboard</title>
+<script src="auth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<script>
+  /* ======================= GANTI DI SINI ======================= */
+  const ORANG = [
+    { nama: "Nadia Hidatul Zanna", sub: "",foto: "foto/5.jpg", posisi: "center 75%", zoom: "scale(2.4)", titik: "49% 47%", link: "profil.html", warna: "#ff5c93" },
+    { nama: "Muhammad Sholeh Rahman", sub: "",foto: "foto/sholeh/profil.jpg", posisi: "center 30%", link: "sholeh.html", warna: "#8fb8ff", inisial: "MSR" }
+  ];
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Montserrat", system-ui, sans-serif; color: #fbf1f5; min-height: 100vh; overflow-x: hidden; padding: 20px 16px 40px;
+    background: linear-gradient(180deg, #170b1f 0%, #2e1233 30%, #5a2042 58%, #96384f 82%, #d4675a 100%) fixed; }
+  body::before { content: ""; position: fixed; left: 50%; bottom: -30vh; width: 120vw; height: 70vh; transform: translateX(-50%); pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255,214,150,.5) 0%, rgba(255,140,110,.2) 35%, transparent 70%); }
+  .bokeh { position: fixed; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(255,226,180,.9), rgba(255,170,140,0) 70%);
+    animation: tw var(--t) ease-in-out infinite alternate; }
+  @keyframes tw { from { opacity: .15 } to { opacity: .8 } }
+  .top { position: relative; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .me { display: flex; align-items: center; gap: 10px; font-size: .9rem; color: #e8cfdb; min-width: 0; }
+  .me img { width: 34px; height: 34px; border-radius: 50%; }
+  .out { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: #fff; border-radius: 999px; padding: 8px 16px; font: 600 .85rem "Montserrat", sans-serif; cursor: pointer; flex-shrink: 0; }
+  header { position: relative; text-align: center; margin: 40px auto 30px; }
+  h1 { font-family: "Pacifico", cursive; font-weight: 400; font-size: clamp(2rem, 8vw, 3rem); color: #ffe3ea; text-shadow: 0 0 20px rgba(255,120,160,.5); }
+  header p { color: #d4b8c8; margin-top: 6px; }
+  .grid { position: relative; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; }
+  .pick { display: block; text-decoration: none; color: inherit; text-align: center; padding: 30px 22px 26px; border-radius: 26px;
+    background: rgba(30,14,36,.6); border: 1px solid rgba(255,200,220,.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 50px rgba(20,5,20,.4); transition: transform .3s, box-shadow .3s, border-color .3s;
+    opacity: 0; animation: up .8s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--d); }
+  @keyframes up { from { opacity: 0; transform: translateY(30px) } to { opacity: 1; transform: none } }
+  .pick:hover, .pick:focus-visible { transform: translateY(-6px) scale(1.02); border-color: var(--w); box-shadow: 0 20px 60px rgba(20,5,20,.5), 0 0 40px color-mix(in srgb, var(--w) 45%, transparent); }
+  .ava { width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; padding: 5px; background: conic-gradient(var(--w), #ffd34f, var(--w)); }
+  .ava > div { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #2a1830; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 2.4rem; color: var(--w); }
+  .ava img { width: 100%; height: 100%; object-fit: cover; }
+  .pick h2 { margin-top: 18px; font-size: 1.25rem; font-weight: 900; }
+  .pick p { color: #d4b8c8; margin-top: 6px; font-size: .92rem; }
+  .go { display: inline-block; margin-top: 16px; padding: 10px 22px; border-radius: 999px; font-weight: 700; font-size: .9rem; color: #fff;
+    background: linear-gradient(90deg, var(--w), #9b7bff); }
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="me" id="me"></div>
+    <button class="out" onclick="keluar()">Keluar</button>
+  </div>
+  <header><h1>Mau lihat siapa?</h1><p>Pilih salah satu dashboard</p></header>
+  <div class="grid" id="grid"></div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const u = authUser();
+  if (u) $("me").innerHTML = (u.foto ? `<img src="${esc(u.foto)}" alt="" referrerpolicy="no-referrer">` : "") + `<span>Halo, <b>${esc(u.nama || u.email)}</b></span>`;
+
+  ORANG.forEach((o, i) => {
+    const a = document.createElement("a");
+    a.className = "pick"; a.href = o.link;
+    a.style.cssText = `--w:${o.warna}; --d:${.15 + i * .15}s`;
+    a.innerHTML = `<div class="ava"><div>${esc(o.inisial || o.nama[0])}</div></div>
+      <h2>${esc(o.nama)}</h2>${o.sub ? `<p>${esc(o.sub)}</p>` : ""}<span class="go">Buka ➜</span>`;
+    const im = new Image();
+    im.alt = ""; im.style.objectPosition = o.posisi;
+    if (o.zoom) { im.style.transform = o.zoom; im.style.transformOrigin = o.titik; }
+    im.onload = () => { const box = a.querySelector(".ava > div"); box.textContent = ""; box.appendChild(im); };
+    im.src = o.foto;
+    $("grid").appendChild(a);
+  });
+
+  for (let i = 0; i < 24; i++) {
+    const b = document.createElement("span"), s = 4 + Math.random() * 14;
+    b.className = "bokeh";
+    b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}%;top:${20 + Math.random() * 80}%;--t:${2 + Math.random() * 4}s`;
+    document.body.prepend(b);
+  }
+</script>
+</body>
+</html>
