@@ -470,7 +470,7 @@
   function pasangFoto(wadah, src, cap, saatAda) {
     if (!src) return;
     const im = new Image();
-    im.alt = cap || ""; im.loading = "lazy";
+    im.alt = cap || "";   // jangan pakai loading="lazy": gambar belum ada di halaman, jadi tidak akan pernah dimuat
     im.onload = () => { wadah.appendChild(im); if (saatAda) saatAda(); };
     im.onclick = () => lightbox(src, cap);
     im.src = src;
@@ -537,7 +537,7 @@
   $("gal").appendChild(el("p", "empty", `📷 Belum ada foto. Taruh foto di folder <code>foto/sholeh/</code> dengan nama <code>1.jpg</code>, <code>2.jpg</code>, dst., lalu upload ke GitHub.`));
   PORTO.galeri.forEach(([src, cap]) => {
     const im = new Image();
-    im.alt = cap; im.loading = "lazy";
+    im.alt = cap;
     im.onload = () => {
       $("gal").querySelector(".empty")?.remove();
       const f = el("figure", "", `<figcaption>${esc(cap)}</figcaption>`);
