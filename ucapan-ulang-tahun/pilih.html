@@ -10,8 +10,8 @@
 <script>
   /* ======================= GANTI DI SINI ======================= */
   const ORANG = [
-    { nama: "Nadia Hidatul Zanna", sub: "Dashboard ulang tahun 🎂", foto: "foto/5.jpg", posisi: "center 75%", zoom: "scale(2.4)", titik: "49% 47%", link: "profil.html", warna: "#ff5c93" },
-    { nama: "Muhammad Sholeh Rahman", sub: "Portofolio 💼", foto: "foto/sholeh.jpg", posisi: "center 30%", link: "sholeh.html", warna: "#8fb8ff", inisial: "MSR" }
+    { nama: "Nadia Hidatul Zanna", sub: "",foto: "foto/5.jpg", posisi: "center 75%", zoom: "scale(2.4)", titik: "49% 47%", link: "profil.html", warna: "#ff5c93" },
+    { nama: "Muhammad Sholeh Rahman", sub: "",foto: "foto/sholeh.jpg", posisi: "center 30%", link: "sholeh.html", warna: "#8fb8ff", inisial: "MSR" }
   ];
 </script>
 <style>
@@ -66,7 +66,7 @@
     a.className = "pick"; a.href = o.link;
     a.style.cssText = `--w:${o.warna}; --d:${.15 + i * .15}s`;
     a.innerHTML = `<div class="ava"><div>${esc(o.inisial || o.nama[0])}</div></div>
-      <h2>${esc(o.nama)}</h2><p>${esc(o.sub)}</p><span class="go">Buka ➜</span>`;
+      <h2>${esc(o.nama)}</h2>${o.sub ? `<p>${esc(o.sub)}</p>` : ""}<span class="go">Buka ➜</span>`;
     const im = new Image();
     im.alt = ""; im.style.objectPosition = o.posisi;
     if (o.zoom) { im.style.transform = o.zoom; im.style.transformOrigin = o.titik; }
