@@ -5,8 +5,9 @@
 const AUTH = {
   clientId: "190876029376-6fapvgqefs0jjk1uno8aqngulsl29mfl.apps.googleusercontent.com",
   emailBoleh: [
-    "email-sholeh@gmail.com",
-    "email-nadia@gmail.com"
+    "nadiazanna097@gmail.com",
+    "sholehs558@gmail.com",
+    "rahmanmuhammadsholeh@gmail.com"
   ],
   lamaLogin: 7   // hari; setelah ini harus login ulang
 };
