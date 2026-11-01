@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Sholeh Rahman</title>
+<script src="auth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<script>
+  /* ======================= GANTI DI SINI =======================
+     Bagian yang masih "contoh" silakan diganti dengan data aslimu.
+     ============================================================ */
+  const PORTO = {
+    nama: "Muhammad Sholeh Rahman",
+    panggilan: "Sholeh",
+    peran: "Mahasiswa · Web & AI Enthusiast",
+    tagline: "Suka membangun hal-hal kecil yang bikin orang tersenyum, dari website interaktif sampai model machine learning.",
+    foto: "foto/sholeh.jpg",          // taruh fotomu di folder foto dengan nama ini
+    lahir: "2005-12-06",              // TAHUN-BULAN-TANGGAL
+    kotaLahir: "Batang, Jawa Tengah",
+
+    info: [
+      ["🎓", "Pendidikan", "Isi kampus & jurusanmu"],
+      ["📚", "Semester", "5"],
+      ["📍", "Asal", "Batang, Jawa Tengah"],
+      ["🏛️", "Organisasi", "PPKO Ormawa FST"]
+    ],
+
+    keahlian: [                       // [nama skill, nilai 0–100]
+      ["Python", 80],
+      ["Machine Learning / Sistem Cerdas", 70],
+      ["HTML, CSS & JavaScript", 85],
+      ["UI / Desain Web", 75],
+      ["Public Speaking", 70],
+      ["Kerja Tim & Organisasi", 90]
+    ],
+
+    alat: ["Python", "Jupyter", "VS Code", "Git & GitHub", "HTML", "CSS", "JavaScript", "Canva"],
+
+    proyek: [                         // [emoji, judul, deskripsi, [teknologi], link (boleh "")]
+      ["🎂", "Website Ucapan Ulang Tahun Interaktif",
+       "Web dengan kado, tiup lilin lewat mikrofon, dashboard live, dinding foto makrame, login Google, dan QR berbentuk hati.",
+       ["HTML", "CSS", "JavaScript", "GitHub Pages"], ""],
+      ["🧠", "Training Data — Sistem Cerdas",
+       "Contoh: pengolahan dan pelatihan data untuk tugas mata kuliah Sistem Cerdas. Ganti dengan deskripsi aslinya.",
+       ["Python", "Machine Learning"], ""],
+      ["🤝", "PPKO Ormawa FST",
+       "Contoh: program pengabdian bersama Forum Studi Teknik. Ganti dengan peran dan hasil kegiatannya.",
+       ["Organisasi", "Pengabdian"], ""]
+    ],
+
+    pengalaman: [                     // [tanggal, judul, cerita]
+      ["2026-08-01", "PPKO Ormawa FST (Forum Studi Teknik)", "Bergabung dalam program PPKO Ormawa. Ganti dengan peran dan kontribusimu."],
+      ["2026-11-01", "Membangun website ucapan interaktif", "Proyek pribadi: website ulang tahun lengkap dengan login Google dan hosting di GitHub Pages."]
+    ],
+
+    kontak: [                         // [emoji, label, link]
+      ["🐙", "GitHub", "https://github.com/Wazxrong06"],
+      ["📸", "Instagram", ""],
+      ["💼", "LinkedIn", ""],
+      ["✉️", "Email", ""]
+    ]
+  };
+</script>
+<style>
+  :root { --panel: rgba(30,14,36,.62); --panel2: rgba(255,255,255,.06); --line: rgba(200,210,255,.13);
+    --ink: #f6f3fb; --muted: #c9bfd8; --accent: #8fb8ff; --accent2: #b28cff; --gold: #ffd34f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden;
+    background: linear-gradient(180deg, #120b22 0%, #261440 32%, #4a2150 60%, #8a3a55 84%, #c9665a 100%) fixed; }
+  .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .sky::before { content: ""; position: absolute; left: 50%; bottom: -30vh; width: 120vw; height: 70vh; transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(255,214,150,.45) 0%, rgba(255,140,110,.2) 35%, transparent 70%); }
+  .bokeh { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(220,230,255,.9), rgba(180,190,255,0) 70%);
+    animation: twinkle var(--t) ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: .15; transform: scale(.7) } to { opacity: .8; transform: scale(1.1) } }
+
+  /* bintang 3D melayang */
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; perspective: 700px; }
+  .st { position: absolute; bottom: -80px; animation: rise var(--dur) linear infinite; animation-delay: var(--delay); }
+  .st .spin { animation: spin3d var(--sp) linear infinite; transform-style: preserve-3d; }
+  .st svg { display: block; width: var(--s); height: var(--s); filter: drop-shadow(0 0 10px rgba(160,180,255,.6)); }
+  @keyframes rise {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; } 10% { opacity: var(--o); }
+    50% { transform: translate3d(var(--sx), -55vh, 0); } 90% { opacity: var(--o); }
+    100% { transform: translate3d(0, -115vh, 0); opacity: 0; }
+  }
+  @keyframes spin3d { from { transform: rotateY(0) } to { transform: rotateY(360deg) } }
+
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+  .top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .top a, .top button { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; background: none; border: 0; cursor: pointer; font-family: inherit; }
+  .top a:hover, .top button:hover { color: var(--accent); }
+  .live { margin-left: auto; font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5fe39a; box-shadow: 0 0 10px #5fe39a; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .3 } }
+
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 20px; min-width: 0;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(10,5,25,.35);
+    opacity: 0; transform: translateY(24px); animation: up .7s forwards; animation-delay: var(--d, 0s); }
+  @keyframes up { to { opacity: 1; transform: none; } }
+  .c12 { grid-column: span 12; } .c8 { grid-column: span 8; } .c6 { grid-column: span 6; } .c4 { grid-column: span 4; } .c3 { grid-column: span 3; }
+  @media (max-width: 900px) { .c8, .c6, .c4 { grid-column: span 12; } .c3 { grid-column: span 6; } }
+  h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 14px; font-weight: 700; }
+
+  .hero { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; background: linear-gradient(135deg, rgba(70,60,140,.55), rgba(40,16,48,.6) 60%); }
+  .avatar { width: 130px; height: 130px; border-radius: 50%; padding: 4px; flex-shrink: 0;
+    background: conic-gradient(var(--accent), var(--accent2), var(--gold), var(--accent)); animation: spin 8s linear infinite; }
+  .avatar > div { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #241a3a; animation: spin 8s linear infinite reverse;
+    display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 900; color: var(--accent); }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  @keyframes spin { to { transform: rotate(360deg) } }
+  .hero .role { color: var(--accent); font-weight: 700; font-size: .95rem; letter-spacing: .5px; }
+  .hero h1 { font-weight: 900; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.1; margin-top: 4px; }
+  .hero p { color: var(--muted); margin-top: 8px; max-width: 620px; line-height: 1.6; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tag { font-size: .8rem; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.07); }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: .88rem; text-decoration: none; color: #fff;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .btn.ghost { background: rgba(255,255,255,.08); border: 1px solid var(--line); }
+  .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+
+  .tile .k { font-size: .78rem; color: var(--muted); font-weight: 600; }
+  .tile .v { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .tile .s { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  .tile .ic { font-size: 1.4rem; float: right; }
+
+  .cd { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cd div { flex: 1; min-width: 64px; background: var(--panel2); border-radius: 14px; padding: 14px 6px; text-align: center; }
+  .cd b { display: block; font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 900; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .cd span { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .prog { margin-top: 18px; }
+  .prog .row { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); margin-bottom: 6px; }
+  .track { height: 10px; background: var(--panel2); border-radius: 99px; overflow: hidden; }
+  .fill { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+
+  .list { display: grid; gap: 10px; }
+  .item { display: flex; gap: 12px; align-items: center; background: var(--panel2); border-radius: 14px; padding: 12px 14px; }
+  .item .e { font-size: 1.4rem; }
+  .item small { display: block; color: var(--muted); font-size: .75rem; }
+  .item b { font-weight: 700; font-size: .95rem; }
+
+  .stat { margin-bottom: 14px; }
+  .stat .row { display: flex; justify-content: space-between; font-size: .9rem; font-weight: 600; margin-bottom: 6px; }
+  .stat .row span:last-child { color: var(--accent); font-variant-numeric: tabular-nums; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 8px 14px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--line); font-size: .85rem; font-weight: 600; transition: transform .2s, border-color .2s; }
+  .chip:hover { transform: translateY(-2px); border-color: var(--accent); }
+
+  .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 14px; }
+  .proj { background: var(--panel2); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 8px;
+    transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .proj:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 30px rgba(120,140,255,.18); }
+  .proj .em { font-size: 2rem; }
+  .proj h4 { font-size: 1.05rem; font-weight: 800; }
+  .proj p { color: var(--muted); font-size: .88rem; line-height: 1.55; flex: 1; }
+  .proj .tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .proj .tech span { font-size: .72rem; padding: 4px 9px; border-radius: 999px; background: rgba(143,184,255,.15); color: #cfe0ff; font-weight: 600; }
+  .proj a { color: var(--accent); font-weight: 700; font-size: .85rem; text-decoration: none; }
+
+  .tl { position: relative; padding-left: 22px; }
+  .tl::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), var(--accent2)); }
+  .tl > div { position: relative; padding-bottom: 18px; }
+  .tl > div::before { content: ""; position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(143,184,255,.2); }
+  .tl small { color: var(--accent); font-weight: 700; font-size: .78rem; }
+  .tl b { display: block; margin: 2px 0; }
+  .tl p { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+
+  .contact { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+  .contact a, .contact span { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 14px; background: var(--panel2); border: 1px solid var(--line);
+    color: var(--ink); text-decoration: none; font-weight: 700; transition: transform .2s, border-color .2s; }
+  .contact a:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .contact span { opacity: .45; }
+  .contact .e { font-size: 1.3rem; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="sky" id="sky"></div>
+<div class="stars" id="stars"></div>
+<div class="wrap">
+  <div class="top">
+    <a href="pilih.html">← Pilih dashboard</a>
+    <button onclick="keluar()">Keluar</button>
+    <span class="live">Live</span>
+  </div>
+
+  <div class="grid">
+    <section class="card c12 hero" style="--d:.05s">
+      <div class="avatar"><div id="avatar">MSR</div></div>
+      <div>
+        <div class="role" id="peran"></div>
+        <h1 id="nama"></h1>
+        <p id="tagline"></p>
+        <div class="tags" id="tags"></div>
+        <div class="cta">
+          <a class="btn" href="#proyek">Lihat proyek ➜</a>
+          <a class="btn ghost" href="#kontak">Hubungi aku</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card c3 tile" style="--d:.15s"><span class="ic">🎂</span><div class="k">Umur</div><div class="v" id="tUmur">–</div><div class="s" id="tUmurS"></div></section>
+    <section class="card c3 tile" style="--d:.2s"><span class="ic">🌍</span><div class="k">Sudah hidup</div><div class="v" id="tHari">–</div><div class="s">hari di bumi</div></section>
+    <section class="card c3 tile" style="--d:.25s"><span class="ic">🚀</span><div class="k">Proyek</div><div class="v" id="tProyek">–</div><div class="s">yang sudah dibuat</div></section>
+    <section class="card c3 tile" style="--d:.3s"><span class="ic">🛠️</span><div class="k">Keahlian</div><div class="v" id="tSkill">–</div><div class="s">skill & tools</div></section>
+
+    <section class="card c8" style="--d:.35s">
+      <h3 id="cdTitle">Menuju ulang tahun berikutnya</h3>
+      <div class="cd">
+        <div><b id="cdD">0</b><span>Hari</span></div>
+        <div><b id="cdH">0</b><span>Jam</span></div>
+        <div><b id="cdM">0</b><span>Menit</span></div>
+        <div><b id="cdS">0</b><span>Detik</span></div>
+      </div>
+      <div class="prog">
+        <div class="row"><span id="progL"></span><span id="progP"></span></div>
+        <div class="track"><div class="fill" id="progF"></div></div>
+      </div>
+    </section>
+
+    <section class="card c4" style="--d:.4s"><h3>Info singkat</h3><div class="list" id="info"></div></section>
+
+    <section class="card c6" style="--d:.45s"><h3>Keahlian</h3><div id="skills"></div></section>
+    <section class="card c6" style="--d:.5s"><h3>Tools yang dipakai</h3><div class="chips" id="alat"></div></section>
+
+    <section class="card c12" style="--d:.55s" id="proyek"><h3>Proyek</h3><div class="projects" id="projects"></div></section>
+
+    <section class="card c12" style="--d:.6s"><h3>Pengalaman & organisasi</h3><div class="tl" id="tl"></div></section>
+
+    <section class="card c12" style="--d:.65s" id="kontak"><h3>Kontak</h3><div class="contact" id="contact"></div></section>
+  </div>
+
+  <footer>© <span id="year"></span> <span id="foot"></span></footer>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt = n => n.toLocaleString("id-ID");
+  const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const tgl = d => `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+  const bln = d => `${bulan[d.getMonth()]} ${d.getFullYear()}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const lahir = parse(PORTO.lahir);
+  const hariLahir = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][lahir.getDay()];
+
+  // ---- Profil ----
+  $("peran").textContent = PORTO.peran;
+  $("nama").textContent = PORTO.nama;
+  $("tagline").textContent = PORTO.tagline;
+  $("foot").textContent = PORTO.nama;
+  $("year").textContent = new Date().getFullYear();
+  [`🎂 ${tgl(lahir)}`, `📍 ${PORTO.kotaLahir}`, `☪️ Islam`, `🗓️ Lahir hari ${hariLahir}`]
+    .forEach(t => $("tags").appendChild(el("span", "tag", esc(t))));
+  const av = new Image();
+  av.onload = () => { $("avatar").textContent = ""; $("avatar").appendChild(av); };
+  av.src = PORTO.foto;
+
+  // ---- Isi ----
+  PORTO.info.forEach(([e, k, v]) => $("info").appendChild(el("div", "item", `<span class="e">${e}</span><div><small>${esc(k)}</small><b>${esc(v)}</b></div>`)));
+  PORTO.alat.forEach(t => $("alat").appendChild(el("span", "chip", esc(t))));
+  PORTO.keahlian.forEach(([k, v]) => {
+    const s = el("div", "stat", `<div class="row"><span>${esc(k)}</span><span>0%</span></div><div class="track"><div class="fill"></div></div>`);
+    $("skills").appendChild(s);
+    setTimeout(() => {
+      s.querySelector(".fill").style.width = v + "%";
+      const lbl = s.querySelector(".row span:last-child"); let n = 0;
+      const t = setInterval(() => { n = Math.min(v, n + 2); lbl.textContent = n + "%"; if (n >= v) clearInterval(t); }, 25);
+    }, 700);
+  });
+  PORTO.proyek.forEach(([e, j, d, tech, link]) => {
+    $("projects").appendChild(el("article", "proj",
+      `<div class="em">${e}</div><h4>${esc(j)}</h4><p>${esc(d)}</p>
+       <div class="tech">${tech.map(t => `<span>${esc(t)}</span>`).join("")}</div>
+       ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">Lihat proyek ↗</a>` : ""}`));
+  });
+  PORTO.pengalaman.forEach(([d, j, c]) => $("tl").appendChild(el("div", "", `<small>${bln(parse(d))}</small><b>${esc(j)}</b><p>${esc(c)}</p>`)));
+  PORTO.kontak.forEach(([e, k, link]) => {
+    $("contact").appendChild(link
+      ? el("a", "", `<span class="e">${e}</span>${esc(k)}`)
+      : el("span", "", `<span class="e">${e}</span>${esc(k)} <small>(belum diisi)</small>`));
+    const a = $("contact").lastElementChild;
+    if (link) { a.href = link; a.target = "_blank"; a.rel = "noopener"; }
+  });
+  $("tProyek").textContent = PORTO.proyek.length;
+  $("tSkill").textContent = PORTO.keahlian.length + PORTO.alat.length;
+
+  // ---- Angka live ----
+  function umur(now) {
+    let y = now.getFullYear() - lahir.getFullYear(), m = now.getMonth() - lahir.getMonth(), d = now.getDate() - lahir.getDate();
+    if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+    if (m < 0) { y--; m += 12; }
+    return { y, m, d };
+  }
+  function tick() {
+    const now = new Date(), u = umur(now);
+    $("tUmur").textContent = u.y + " th";
+    $("tUmurS").textContent = `${u.m} bulan ${u.d} hari`;
+    $("tHari").textContent = fmt(Math.floor((now - lahir) / 864e5));
+    const thisYear = new Date(now.getFullYear(), lahir.getMonth(), lahir.getDate());
+    const isToday = now.toDateString() === thisYear.toDateString();
+    const next = now < thisYear ? thisYear : new Date(now.getFullYear() + 1, lahir.getMonth(), lahir.getDate());
+    const prev = new Date(next.getFullYear() - 1, lahir.getMonth(), lahir.getDate());
+    const left = isToday ? 0 : next - now;
+    $("cdTitle").textContent = isToday ? "🎉 Hari ini ulang tahunku!" : `Menuju ulang tahun ke-${next.getFullYear() - lahir.getFullYear()} · ${tgl(next)}`;
+    $("cdD").textContent = Math.floor(left / 864e5);
+    $("cdH").textContent = String(Math.floor(left / 36e5) % 24).padStart(2, "0");
+    $("cdM").textContent = String(Math.floor(left / 6e4) % 60).padStart(2, "0");
+    $("cdS").textContent = String(Math.floor(left / 1e3) % 60).padStart(2, "0");
+    const p = isToday ? 100 : (now - prev) / (next - prev) * 100;
+    $("progL").textContent = `Perjalanan umur ${u.y} → ${u.y + 1}`;
+    $("progP").textContent = p.toFixed(1) + "%";
+    $("progF").style.width = p + "%";
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ---- Latar: bokeh + bintang 3D melayang ----
+  for (let i = 0; i < 40; i++) {
+    const b = el("span", "bokeh"), s = 4 + Math.random() * 14;
+    b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}%;top:${10 + Math.random() * 90}%;--t:${2 + Math.random() * 4}s;animation-delay:${-Math.random() * 4}s`;
+    $("sky").appendChild(b);
+  }
+  const starSVG = id => `<svg viewBox="0 0 100 100">
+    <defs><radialGradient id="sg${id}" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#ffe9a8"/><stop offset="75%" stop-color="#ffc94a"/><stop offset="100%" stop-color="#c98a12"/>
+    </radialGradient></defs>
+    <path d="M50 4 L62 37 L97 38 L69 59 L79 94 L50 73 L21 94 L31 59 L3 38 L38 37 Z" fill="url(#sg${id})" stroke-linejoin="round"/>
+    <ellipse cx="40" cy="34" rx="9" ry="5" fill="#fff" opacity=".6" transform="rotate(-30 40 34)"/>
+  </svg>`;
+  const nBintang = innerWidth < 600 ? 10 : 16;
+  for (let i = 0; i < nBintang; i++) {
+    const s = 14 + Math.random() * 34, far = s < 24;
+    const h = el("div", "st", `<div class="spin">${starSVG(i)}</div>`);
+    h.style.cssText = `left:${Math.random() * 96}%; --s:${s}px; --o:${far ? .4 : .85}; --dur:${14 + Math.random() * 14}s;
+      --delay:${-Math.random() * 28}s; --sx:${(Math.random() - .5) * 120}px; ${far ? "filter:blur(1.5px);" : ""}`;
+    h.querySelector(".spin").style.setProperty("--sp", (3 + Math.random() * 4) + "s");
+    $("stars").appendChild(h);
+  }
+</script>
+</body>
+</html>

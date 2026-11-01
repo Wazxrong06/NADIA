@@ -6,6 +6,7 @@
 <title>Selamat Ulang Tahun</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Pacifico&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
 <script>
   /* ======================= GANTI DI SINI ======================= */
   const CONFIG = {
@@ -20,12 +21,14 @@
     lamaFoto: 8000                       // lama foto tampil sebelum masuk dashboard (milidetik)
   };
 
-  // Selain tanggal ulang tahun, langsung ke dashboard.
+  // Belum login -> auth.js sudah mengarahkan ke login.html.
+  // Selain tanggal ulang tahun, langsung ke halaman pilih dashboard.
   // Untuk mencoba di hari lain, buka: index.html?preview
   (function () {
+    if (!authUser()) return;
     const [m, d] = CONFIG.tanggalUltah.split("-").map(Number), now = new Date();
     const hariIni = now.getMonth() + 1 === m && now.getDate() === d;
-    if (!hariIni && !new URLSearchParams(location.search).has("preview")) location.replace("profil.html");
+    if (!hariIni && !new URLSearchParams(location.search).has("preview")) location.replace("pilih.html");
   })();
 </script>
 <style>
@@ -150,8 +153,8 @@
 <script>
   const $ = id => document.getElementById(id);
   const show = (from, to) => { $(from).classList.add("hidden"); $(to).classList.remove("hidden"); };
-  // replace = tombol Back tidak kembali ke sini; mode ?preview ikut dibawa supaya bisa diulang
-  const keDashboard = () => location.replace("profil.html" + (new URLSearchParams(location.search).has("preview") ? "?preview" : ""));
+  // replace = tombol Back tidak kembali ke sini
+  const keDashboard = () => location.replace("pilih.html");
 
   $("hintNama").textContent = CONFIG.untuk.split(" ")[0];
   $("nama").textContent = CONFIG.untuk;

@@ -6,6 +6,7 @@
 <title>Tentang Dia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Pacifico&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
 <script>
   /* ======================= GANTI DI SINI ======================= */
   const PROFIL = {
@@ -112,9 +113,9 @@
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
 
   /* top */
-  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-  .top a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; }
-  .top a:hover { color: var(--accent); }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  .top a, .top button { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; background: none; border: 0; cursor: pointer; font-family: inherit; }
+  .top a:hover, .top button:hover { color: var(--accent); }
   .live { margin-left: auto; font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
   .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5fe39a; box-shadow: 0 0 10px #5fe39a; animation: pulse 1.6s infinite; }
   @keyframes pulse { 50% { opacity: .3 } }
@@ -239,7 +240,9 @@
 <div class="hearts front" id="heartsFront"></div>
 <div class="wrap">
   <div class="top">
+    <a href="pilih.html">← Pilih dashboard</a>
     <a href="index.html" id="back">🎂 Putar lagi ucapannya</a>
+    <button onclick="keluar()">Keluar</button>
     <span class="live">Live</span>
   </div>
 
