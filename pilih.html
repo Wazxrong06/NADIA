@@ -61,6 +61,11 @@
   const u = authUser();
   if (u) $("me").innerHTML = (u.foto ? `<img src="${esc(u.foto)}" alt="" referrerpolicy="no-referrer">` : "") + `<span>Halo, <b>${esc(u.nama || u.email)}</b></span>`;
 
+  // Tanggal 14 November (atau ?preview): kartu Nadia membuka ucapan & tiup lilin dulu, baru dashboard
+  const now = new Date(), preview = new URLSearchParams(location.search).has("preview");
+  const ultahNadia = now.getMonth() === 10 && now.getDate() === 14;
+  ORANG[0].link = ultahNadia ? "ucapan.html" : preview ? "ucapan.html?preview" : "profil.html";
+
   ORANG.forEach((o, i) => {
     const a = document.createElement("a");
     a.className = "pick"; a.href = o.link;

@@ -242,7 +242,7 @@
 <div class="wrap">
   <div class="top">
     <a href="pilih.html">← Pilih dashboard</a>
-    <a href="index.html" id="back">🎂 Putar lagi ucapannya</a>
+    <a href="ucapan.html" id="back">🎂 Putar lagi ucapannya</a>
     <button onclick="keluar()">Keluar</button>
     <span class="live">Live</span>
   </div>
@@ -328,8 +328,8 @@
   {
     const [, bm, bd] = PROFIL.lahir.split("-").map(Number), now = new Date();
     const preview = new URLSearchParams(location.search).has("preview");
-    if (preview) $("back").href = "index.html?preview";
-    else if (now.getMonth() + 1 === bm && now.getDate() === bd) $("back").href = "index.html";
+    if (preview) $("back").href = "ucapan.html?preview";
+    else if (now.getMonth() + 1 === bm && now.getDate() === bd) $("back").href = "ucapan.html";
     else $("back").remove();
   }
 
