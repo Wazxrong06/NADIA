@@ -72,6 +72,7 @@
        "Kontrol keamanan mesin dengan deteksi transmitter–receiver untuk implementasi di industri.", ["Sensor", "Safety"], "foto/sholeh/transmitter-receiver.avif"]
     ],
 
+    // logo diambil otomatis dari foto/sholeh/logo/<singkatan huruf kecil>.png, mis. logo/hme.png
     organisasi: [                     // [periode, divisi, organisasi, singkatan, [poin]]
       ["Feb 2026 – Sekarang", "Research and Scientific Division", "Himpunan Mahasiswa Teknik Elektro Undip", "HME",
        ["Menyelenggarakan kompetisi PKM tingkat departemen.", "Mengoordinasi program persiapan & tes TOEFL.",
@@ -79,12 +80,12 @@
       ["Feb 2026 – Sekarang", "Electrical Division", "Research Marine Technology", "RMT",
        ["Merancang sistem PLTS dan kontroler motor BLDC untuk proyek teknologi kelautan.",
         "Desain sistem kelistrikan, integrasi komponen, pengujian rangkaian, dan troubleshooting prototipe."]],
-      ["Nov 2025 – Sekarang", "Media & Communication Staff", "REPLICA Undip (Research PLC in Control Automation)", "RPL",
+      ["Nov 2025 – Sekarang", "Media & Communication Staff", "REPLICA Undip (Research PLC in Control Automation)", "REPLICA",
        ["Menyusun SOP media dan alur komunikasi.", "Mengelola content calendar bulanan dan konten edukasi PLC.",
         "Membuat konten branding organisasi serta dokumentasi riset, pelatihan, dan roadshow."]],
       ["Sep 2025 – Des 2025", "Student of Creativity Division", "Himpunan Mahasiswa Teknik Elektro Undip", "HME",
        ["Mengelola program kerja bidang riset & keilmuan.", "Pendampingan lomba dan karya tulis ilmiah, diskusi akademik, dan workshop."]],
-      ["Nov 2024 – Nov 2026", "Relationship Eksternal Division", "IMADIBA (Ikatan Mahasiswa Diponegoro Batang)", "IMB",
+      ["Nov 2024 – Nov 2026", "Relationship Eksternal Division", "IMADIBA (Ikatan Mahasiswa Diponegoro Batang)", "IMADIBA",
        ["Membangun kemitraan dengan organisasi & pemangku kepentingan eksternal.", "Mengelola komunikasi eksternal, sponsorship, dan acara kolaborasi."]]
     ],
 
@@ -266,6 +267,8 @@
   .org .head { display: flex; gap: 12px; align-items: center; }
   .org .av { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .85rem;
     background: linear-gradient(135deg, var(--p1), var(--p2)); }
+  .org .av.logo { background: #fff; padding: 6px; }
+  .org .av.logo img { width: 100%; height: 100%; object-fit: contain; }
   .org .head b { display: block; font-size: .98rem; line-height: 1.3; }
   .org .head small { color: var(--muted); font-size: .8rem; }
   .org .when { font-size: .78rem; font-weight: 700; color: var(--p2); }
@@ -526,9 +529,16 @@
   });
 
   // ---- Organisasi ----
-  PORTO.organisasi.forEach(([when, div, org, ab, list]) =>
-    $("orgs").appendChild(el("article", "org reveal", `<div class="head"><div class="av">${esc(ab)}</div><div><b>${esc(div)}</b><small>${esc(org)}</small></div></div>
-      <div class="when">${esc(when)}</div>${pts(list)}`)));
+  PORTO.organisasi.forEach(([when, div, org, ab, list]) => {
+    const card = el("article", "org reveal", `<div class="head"><div class="av">${esc(ab.length > 4 ? ab.slice(0, 3) : ab)}</div><div><b>${esc(div)}</b><small>${esc(org)}</small></div></div>
+      <div class="when">${esc(when)}</div>${pts(list)}`);
+    // kalau logo ada, ganti kotak singkatan dengan logo
+    const av = card.querySelector(".av"), logo = new Image();
+    logo.alt = ab;
+    logo.onload = () => { av.textContent = ""; av.classList.add("logo"); av.appendChild(logo); };
+    logo.src = `foto/sholeh/logo/${ab.toLowerCase()}.png`;
+    $("orgs").appendChild(card);
+  });
 
   // ---- Pendidikan & hobi ----
   PORTO.pendidikan.forEach(([when, sch, sub, list]) =>
