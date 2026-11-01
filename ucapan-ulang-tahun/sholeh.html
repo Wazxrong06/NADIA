@@ -95,7 +95,7 @@
       ["Jul 2018 – Mei 2021", "SMP Negeri 1 Tulis", "Nilai 88.00/100", ["Ekstrakurikuler Karate", "Ekstrakurikuler Atletik"]]
     ],
 
-    prestasi: [                       // [tahun, judul, tingkat]
+    prestasi: [                       // hobi lari: [tahun, nama event, keterangan]
       ["2023", "Subah Running 10K", "Tingkat Kabupaten Batang · PASI Batang"],
       ["2022", "Kamulyan Trail Run 6K", "Tingkat Kabupaten Batang · KGPA Batang"],
       ["2022", "Mapala Kanpas 7.8K", "Tingkat Provinsi Jawa Tengah · Univ. Pekajangan Pekalongan"]
@@ -305,7 +305,7 @@
     </section>
 
     <section class="card c3 tile" style="--d:.15s"><span class="ic">🎂</span><div class="k">Umur</div><div class="v" id="tUmur">–</div><div class="s" id="tUmurS"></div></section>
-    <section class="card c3 tile" style="--d:.2s"><span class="ic">🏅</span><div class="k">Prestasi</div><div class="v" id="tPrestasi">–</div><div class="s">lomba lari</div></section>
+    <section class="card c3 tile" style="--d:.2s"><span class="ic">🏃</span><div class="k">Hobi lari</div><div class="v" id="tPrestasi">–</div><div class="s">event yang diikuti</div></section>
     <section class="card c3 tile" style="--d:.25s"><span class="ic">🚀</span><div class="k">Proyek</div><div class="v" id="tProyek">–</div><div class="s">yang sudah dikerjakan</div></section>
     <section class="card c3 tile" style="--d:.3s"><span class="ic">🤝</span><div class="k">Pengalaman</div><div class="v" id="tOrg">–</div><div class="s">kerja & organisasi</div></section>
 
@@ -335,7 +335,7 @@
     <section class="card c6" style="--d:.65s"><h3>Pengalaman organisasi</h3><div class="tl" id="org"></div></section>
     <section class="card c6" style="--d:.7s"><h3>Pendidikan</h3><div class="tl" id="edu"></div></section>
 
-    <section class="card c12" style="--d:.75s"><h3>Prestasi</h3><div class="awards" id="awards"></div></section>
+    <section class="card c12" style="--d:.75s"><h3>Hobi: lari 🏃</h3><div class="awards" id="awards"></div></section>
 
     <section class="card c12" style="--d:.8s"><h3>Galeri & dokumentasi</h3><div class="gal" id="gal"></div></section>
 
@@ -420,7 +420,7 @@
   PORTO.pendidikan.forEach(([when, sch, sub, list]) =>
     $("edu").appendChild(el("div", "", `<small>${esc(when)}</small><b>${esc(sch)}</b><div class="at">${esc(sub)}</div>${pts(list)}`)));
   PORTO.prestasi.forEach(([y, j, lvl], i) =>
-    $("awards").appendChild(el("div", "award", `<span class="m">${["🥇", "🏅", "🏃"][i % 3]}</span><div><span class="y">${esc(y)}</span><b>${esc(j)}</b><small>${esc(lvl)}</small></div>`)));
+    $("awards").appendChild(el("div", "award", `<span class="m">${["🏃", "👟", "⛰️"][i % 3]}</span><div><span class="y">${esc(y)}</span><b>${esc(j)}</b><small>${esc(lvl)}</small></div>`)));
 
   // galeri: hanya foto yang filenya ada yang tampil
   let adaFoto = 0;
