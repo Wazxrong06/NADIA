@@ -181,9 +181,11 @@
     <img id="imgHasil" alt="Hasil fotobot">
     <div class="aksi">
       <a class="btn" id="bUnduh" download="fotobot.png">⬇️ Simpan PNG</a>
+      <button class="btn" id="bTempel">🧷 Tempel ke dinding</button>
       <button class="btn ghost" id="bLagi">🔁 Foto lagi</button>
     </div>
-    <p class="note">Dia juga dapat strip yang sama di laptopnya.</p>
+    <p class="note" id="tempelInfo"></p>
+    <p class="note">Dia juga dapat strip yang sama di laptopnya. Cukup satu orang yang menempel ke dinding.</p>
   </section>
 
   <footer>Dibuat untuk difoto berdua, dari jauh pun tetap bareng 💖</footer>
@@ -406,7 +408,9 @@
 
   async function jalankan(p, akuYangMulai) {
     if (sibuk) return; sibuk = true;
-    if (akuYangMulai) kirim({ t: "mulai", ...p });
+    // id sesi yang sama di dua laptop -> kalau dua-duanya menempel ke dinding, tidak jadi dobel
+    if (akuYangMulai) { p.sesi = Date.now().toString(36) + Math.random().toString(36).slice(2, 7); kirim({ t: "mulai", ...p }); }
+    if (!p.sesi) p.sesi = Date.now().toString(36);
     terapkan(p);
     $("bJepret").disabled = true; $("thumbs").innerHTML = "";
     $("hasil").hidden = true; $("booth").hidden = false;
@@ -502,6 +506,8 @@
       tulisanBawah(ctx, b, p, W / 2, H - foot + 110, 240);
     }
 
+    hasilTerakhir = { canvas: c, tata: p.tata, nama: (p.tulisan || "").trim() || FOTOBOT.tulisan, sesi: p.sesi };
+    $("bTempel").disabled = false; $("bTempel").textContent = "🧷 Tempel ke dinding"; $("tempelInfo").textContent = "";
     const url = c.toDataURL("image/png");
     $("imgHasil").src = url; $("bUnduh").href = url;
     $("bUnduh").download = `fotobot-${new Date().toISOString().slice(0, 10)}.png`;
@@ -509,6 +515,34 @@
     $("hasil").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   $("bLagi").onclick = () => { $("hasil").hidden = true; $("booth").hidden = false; $("thumbs").innerHTML = ""; };
+
+  // ---- Tempel ke dinding (Firebase, lihat dinding.js) ----
+  let hasilTerakhir = null;
+  import("./dinding.js").then(D => { if (!D.aktif) $("bTempel").hidden = true; }).catch(() => { $("bTempel").hidden = true; });
+  $("bTempel").onclick = async () => {
+    if (!hasilTerakhir) return;
+    const b = $("bTempel"); b.disabled = true; b.textContent = "Menempel…";
+    let D = null;
+    try {
+      D = await import("./dinding.js");
+      if (!D.aktif) throw new Error("BELUM_DIATUR");
+      // perkecil jadi JPEG supaya muat di Firestore (maks 1 MB per foto)
+      const c = hasilTerakhir.canvas, skala = Math.min(1, 1400 / Math.max(c.width, c.height));
+      const k = document.createElement("canvas"); k.width = Math.round(c.width * skala); k.height = Math.round(c.height * skala);
+      k.getContext("2d").drawImage(c, 0, 0, k.width, k.height);
+      let q = .82, gambar = k.toDataURL("image/jpeg", q);
+      while (gambar.length > 900000 && q > .4) { q -= .1; gambar = k.toDataURL("image/jpeg", q); }
+      await D.simpan(hasilTerakhir.sesi, { gambar, tata: hasilTerakhir.tata, nama: hasilTerakhir.nama, w: k.width, h: k.height });
+      b.textContent = "✅ Tertempel di dinding";
+      $("tempelInfo").innerHTML = 'Lihat di <a href="dinding.html" style="color:var(--gold)">dinding kenangan</a> 🧷';
+    } catch (e) {
+      console.error(e);
+      b.disabled = false; b.textContent = "🧷 Tempel ke dinding";
+      const pesan = D ? D.pesanGalat(e) : (e && e.message) || String(e);
+      $("tempelInfo").textContent = pesan;
+      if (e && e.message === "LOGIN_ULANG" && confirm(pesan + "\n\nKeluar dan masuk lagi sekarang?")) keluar();
+    }
+  };
 
   // ---- Lobby ----
   $("bBuat").onclick = () => buatRuang();

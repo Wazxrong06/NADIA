@@ -71,7 +71,8 @@
       google.accounts.id.disableAutoSelect();
       return;
     }
-    authSimpan({ email: d.email, nama: d.given_name || d.name, foto: d.picture });
+    // token disimpan juga: dipakai dinding.js untuk masuk ke Firebase (dinding kenangan)
+    authSimpan({ email: d.email, nama: d.given_name || d.name, foto: d.picture, token: resp.credential });
     $("msg").textContent = `Selamat datang, ${d.given_name || d.name} ✨`;
     setTimeout(() => location.replace(tujuan), 700);
   }

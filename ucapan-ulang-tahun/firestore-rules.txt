@@ -1,0 +1,18 @@
+// Salin SEMUA isi file ini ke Firebase Console > Firestore Database > tab "Rules", lalu klik "Publish".
+// Hanya tiga akun Google di bawah yang boleh melihat / menempel / melepas foto di dinding.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function boleh() {
+      return request.auth != null
+        && request.auth.token.email in [
+          'nadiazanna097@gmail.com',
+          'sholehs558@gmail.com',
+          'rahmanmuhammadsholeh@gmail.com'
+        ];
+    }
+    match /dinding/{id} {
+      allow read, write: if boleh();
+    }
+  }
+}

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wall of Memories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Anton&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+<style>
+  :root { --wall: #f4efe6; --ink: #2b2420; --muted: #7d726a; --accent: #ff5c93; --accent2: #9b7bff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  body { font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden;
+    background-color: var(--wall);
+    background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px), radial-gradient(rgba(255,255,255,.6) 1px, transparent 1px);
+    background-size: 7px 7px, 11px 11px; background-position: 0 0, 3px 4px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 22px 16px 70px; }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .top a, .top button { color: var(--muted); text-decoration: none; font-weight: 700; font-size: .9rem; background: none; border: 0; cursor: pointer; font-family: inherit; }
+  .top a:hover, .top button:hover { color: var(--accent); }
+  .me { display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--muted); }
+  .me img { width: 28px; height: 28px; border-radius: 50%; }
+  .lanjut { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; color: #fff !important; font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 10px 24px rgba(255,92,147,.3); transition: transform .2s; }
+  .lanjut:hover { transform: translateY(-2px); color: #fff; }
+
+  /* judul huruf guntingan */
+  .judul { text-align: center; margin: 44px 0 10px; line-height: 1; user-select: none; }
+  .judul .baris { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 4px; margin-bottom: 10px; }
+  .judul span { font-family: "Anton", "Montserrat", sans-serif; font-size: clamp(1.9rem, 7vw, 4.2rem); color: #111; background: #fff; padding: 2px 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,.18); transform: rotate(var(--r)); display: inline-block; animation: jatuh .6s both; animation-delay: var(--d); }
+  .judul span.sp { background: none; box-shadow: none; width: 1.2ch; }
+  .judul span.k { font-size: clamp(1.5rem, 5.6vw, 3.3rem); padding-top: 6px; }
+  @keyframes jatuh { from { opacity: 0; transform: translateY(-30px) rotate(var(--r)) } to { opacity: 1; transform: rotate(var(--r)) } }
+  .sub { text-align: center; color: var(--muted); font-family: "Caveat", cursive; font-size: 1.5rem; margin-bottom: 34px; }
+
+  /* dinding */
+  .dinding { columns: 4 220px; column-gap: 26px; }
+  .strip { break-inside: avoid; margin: 0 0 30px; position: relative; display: inline-block; width: 100%; cursor: zoom-in;
+    transform: rotate(var(--r)); transition: transform .25s; animation: muncul .6s both; animation-delay: var(--d); }
+  .strip:hover { transform: rotate(0) scale(1.04); z-index: 2; }
+  @keyframes muncul { from { opacity: 0; transform: translateY(20px) rotate(var(--r)) } }
+  .strip img { display: block; width: 100%; background: #fff; padding: 4px; box-shadow: 0 10px 24px rgba(50,30,20,.22), 0 2px 5px rgba(50,30,20,.15); }
+  .strip .tape { position: absolute; left: 50%; top: -12px; width: 86px; height: 26px; margin-left: -43px; transform: rotate(var(--t));
+    background: rgba(255,232,150,.78); box-shadow: 0 1px 3px rgba(0,0,0,.12); border-left: 2px dashed rgba(255,255,255,.6); border-right: 2px dashed rgba(255,255,255,.6); }
+  .strip .tape.b { left: auto; right: -30px; top: auto; bottom: 18px; margin: 0; width: 64px; transform: rotate(80deg); background: rgba(190,225,255,.75); }
+  .strip figcaption { font-family: "Caveat", cursive; font-size: 1.15rem; text-align: center; color: var(--muted); margin-top: 6px; }
+
+  .kosong, .info { text-align: center; color: var(--muted); padding: 50px 16px; line-height: 1.7; }
+  .kosong .e { font-size: 3.5rem; }
+  .info.err { color: #b3261e; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer; text-decoration: none; margin-top: 14px;
+    font: 700 .95rem "Montserrat", sans-serif; color: #fff; background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 8px 24px rgba(255,92,147,.3); }
+  .btn.ghost { background: rgba(0,0,0,.08); color: var(--ink); box-shadow: none; }
+  .setup { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 18px; padding: 22px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,.08); line-height: 1.7; font-size: .92rem; }
+  .setup code { background: #f1ebe0; padding: 2px 6px; border-radius: 6px; font-size: .85em; }
+  .setup ol { padding-left: 20px; }
+
+  .bawah { text-align: center; margin-top: 50px; }
+  .bawah a { margin: 6px; }
+
+  /* lightbox */
+  .lb { position: fixed; inset: 0; z-index: 50; background: rgba(30,20,20,.9); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb img { max-width: 94vw; max-height: 74vh; background: #fff; padding: 6px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .lb .cap { color: #fff; font-family: "Caveat", cursive; font-size: 1.5rem; }
+  .lb .aksi { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .lb .btn { margin: 0; }
+  .lb .btn.merah { background: rgba(255,255,255,.12); color: #ffb3b3; box-shadow: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="me" id="me"></div>
+    <a href="fotobot.html">📸 Fotobot bareng</a>
+    <button onclick="keluar()">Keluar</button>
+    <a class="lanjut" id="lanjut" href="pilih.html">Pilih dashboard ➜</a>
+  </div>
+
+  <div class="judul" id="judul"></div>
+  <p class="sub">semua hasil fotobot kita, ditempel di sini 🧷</p>
+
+  <div id="isi"><p class="info">Mengambil foto dari dinding…</p></div>
+
+  <div class="bawah">
+    <a class="btn" href="pilih.html" id="lanjut2">Pilih dashboard ➜</a>
+    <a class="btn ghost" href="fotobot.html">📸 Fotobot lagi</a>
+  </div>
+</div>
+
+<div class="lb" id="lb">
+  <img id="lbImg" alt="">
+  <div class="cap" id="lbCap"></div>
+  <div class="aksi">
+    <a class="btn" id="lbUnduh" download="fotobot.png">⬇️ Simpan</a>
+    <button class="btn merah" id="lbHapus">🗑️ Lepas dari dinding</button>
+    <button class="btn ghost" id="lbTutup">Tutup</button>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const rnd = i => { const x = Math.sin(i * 9301 + 49297) * 233280; return x - Math.floor(x); };
+  const u = authUser() || {};
+  if (u.email) $("me").innerHTML = (u.foto ? `<img src="${esc(u.foto)}" alt="" referrerpolicy="no-referrer">` : "") + `<span>Halo, <b>${esc(u.nama || u.email)}</b></span>`;
+  // ?preview diteruskan ke halaman pilih
+  if (location.search) { $("lanjut").href += location.search; $("lanjut2").href += location.search; }
+
+  // judul guntingan: "WaLL of MeMoRiES"
+  ["WaLL of", "MeMoRiES"].forEach((kata, b) => {
+    const baris = document.createElement("div"); baris.className = "baris";
+    [...kata].forEach((h, i) => {
+      const s = document.createElement("span");
+      if (h === " ") s.className = "sp";
+      else { s.textContent = h; if (h === h.toLowerCase()) s.className = "k"; }
+      s.style.cssText = `--r:${((rnd(b * 20 + i) - .5) * 14).toFixed(1)}deg; --d:${(b * .4 + i * .06).toFixed(2)}s`;
+      baris.appendChild(s);
+    });
+    $("judul").appendChild(baris);
+  });
+
+  const bulan = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+  const tgl = d => d ? `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}` : "";
+  let dipilih = null, D = null;
+
+  function tampil(items) {
+    const isi = $("isi"); isi.innerHTML = "";
+    if (!items.length) {
+      isi.innerHTML = `<div class="kosong"><div class="e">🖼️</div>Dindingnya masih kosong.<br>Yuk fotobot dulu, lalu tekan <b>Tempel ke dinding</b>.<br><a class="btn" href="fotobot.html">📸 Fotobot bareng</a></div>`;
+      return;
+    }
+    const d = document.createElement("div"); d.className = "dinding";
+    items.forEach((it, i) => {
+      const f = document.createElement("figure"); f.className = "strip";
+      f.style.cssText = `--r:${((rnd(i + 3) - .5) * 8).toFixed(1)}deg; --t:${((rnd(i + 9) - .5) * 30).toFixed(0)}deg; --d:${(i * .07).toFixed(2)}s`;
+      f.innerHTML = `<span class="tape"></span>${i % 3 === 1 ? '<span class="tape b"></span>' : ""}<img alt="${esc(it.nama || "")}" loading="lazy"><figcaption>${esc(it.nama || "")}${it.tanggal ? " · " + tgl(it.tanggal) : ""}</figcaption>`;
+      f.querySelector("img").src = it.gambar;
+      f.onclick = () => {
+        dipilih = it;
+        $("lbImg").src = it.gambar; $("lbCap").textContent = (it.nama || "") + (it.tanggal ? " · " + tgl(it.tanggal) : "");
+        $("lbUnduh").href = it.gambar; $("lbUnduh").download = `fotobot-${it.id}.jpg`;
+        $("lb").classList.add("open");
+      };
+      d.appendChild(f);
+    });
+    isi.appendChild(d);
+  }
+
+  function galat(e) {
+    const pesan = D ? D.pesanGalat(e) : (e && e.message) || String(e);
+    const isi = $("isi");
+    if (e && e.message === "BELUM_DIATUR") {
+      isi.innerHTML = `<div class="setup">⚙️ <b>Dinding belum diatur.</b><br>Foto bersama disimpan di Firebase (gratis). Isi konfigurasinya di file <code>dinding.js</code> bagian <code>FIREBASE</code>, lalu upload ulang. Panduannya ada di catatan dari Claude.</div>`;
+      return;
+    }
+    isi.innerHTML = `<p class="info err">${esc(pesan)}</p>` + (e && e.message === "LOGIN_ULANG" ? `<p style="text-align:center"><button class="btn" onclick="keluar()">Keluar & masuk lagi</button></p>` : "");
+  }
+
+  async function muat() {
+    try {
+      D = await import("./dinding.js");
+      tampil(await D.daftar());
+    } catch (e) { console.error(e); galat(e); }
+  }
+
+  $("lbTutup").onclick = () => $("lb").classList.remove("open");
+  $("lb").onclick = e => { if (e.target === $("lb")) $("lb").classList.remove("open"); };
+  $("lbHapus").onclick = async () => {
+    if (!dipilih || !confirm("Lepas foto ini dari dinding? Tidak bisa dibatalkan.")) return;
+    try { await D.hapus(dipilih.id); $("lb").classList.remove("open"); muat(); }
+    catch (e) { alert(D ? D.pesanGalat(e) : e.message); }
+  };
+  muat();
+</script>
+</body>
+</html>
