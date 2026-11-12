@@ -75,7 +75,7 @@
   /* booth */
   .layar { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .cam { position: relative; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden; background: #1a0f20; border: 3px solid rgba(255,255,255,.12); }
-  .cam video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
+  .cam video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; filter: brightness(var(--cerah, 1)) contrast(1.05); }
   .nm { position: absolute; left: 10px; bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.5); font-size: .85rem; font-weight: 700; backdrop-filter: blur(6px); }
   .tunggu { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 16px;
     background: rgba(20,8,24,.85); color: var(--muted); font-size: .9rem; line-height: 1.5; }
@@ -156,6 +156,7 @@
       <label>Tata letak <select id="selTata"><option value="strip">Strip memanjang</option><option value="kartu">Kartu lebar</option></select></label>
       <label>Hiasan <select id="selBingkai"></select></label>
       <label>Jumlah foto <select id="selJumlah"><option value="3">3</option><option value="4">4</option></select></label>
+      <label>Cahaya <select id="selCerah"><option value="1">Normal</option><option value="1.35">Lebih terang</option><option value="1.7">Paling terang</option></select></label>
       <label class="grow">Nama <input id="inTulisan" maxlength="30"></label>
       <label class="grow">Tempat <input id="inTempat" maxlength="30"></label>
       <button class="btn big" id="bJepret" disabled>📸 Jepret!</button>
@@ -338,9 +339,10 @@
   }
 
   // ---- Pengaturan tersinkron ----
-  function setelan() { return { bingkai: $("selBingkai").value, tata: $("selTata").value, jumlah: +$("selJumlah").value, tulisan: $("inTulisan").value, tempat: $("inTempat").value }; }
+  function setelan() { return { bingkai: $("selBingkai").value, tata: $("selTata").value, jumlah: +$("selJumlah").value, cerah: +$("selCerah").value, tulisan: $("inTulisan").value, tempat: $("inTempat").value }; }
   function terapkan(d) {
     if (BINGKAI[d.bingkai]) $("selBingkai").value = d.bingkai;
+    if ([1, 1.35, 1.7].includes(d.cerah)) { $("selCerah").value = d.cerah; document.documentElement.style.setProperty("--cerah", d.cerah); }
     if (d.tata === "strip" || d.tata === "kartu") $("selTata").value = d.tata;
     if (d.jumlah === 3 || d.jumlah === 4) $("selJumlah").value = d.jumlah;
     if (typeof d.tulisan === "string") $("inTulisan").value = d.tulisan.slice(0, 30);
@@ -348,6 +350,7 @@
   }
   function kirimSetel() { kirim({ t: "setel", ...setelan() }); }
   $("selBingkai").onchange = $("selTata").onchange = $("selJumlah").onchange = kirimSetel;
+  $("selCerah").onchange = () => { document.documentElement.style.setProperty("--cerah", $("selCerah").value); kirimSetel(); };
   let st; $("inTulisan").oninput = $("inTempat").oninput = () => { clearTimeout(st); st = setTimeout(kirimSetel, 300); };
 
   // ---- Jepret ----
@@ -358,6 +361,7 @@
     if (!w || !h) { ctx.fillStyle = "#e9e4dc"; ctx.fillRect(x, 0, PW, PH); return; }
     const cw = Math.min(w, h * 3 / 4), ch = cw * 4 / 3, sx = (w - cw) / 2, sy = (h - ch) / 2;
     ctx.save(); ctx.translate(x + PW, 0); ctx.scale(-1, 1);   // cermin, sama seperti yang terlihat di layar
+    ctx.filter = `brightness(${$("selCerah").value}) contrast(1.05)`;   // pencerah yang sama di dua laptop
     ctx.drawImage(v, sx, sy, cw, ch, 0, 0, PW, PH); ctx.restore();
   }
   function ambil() {
