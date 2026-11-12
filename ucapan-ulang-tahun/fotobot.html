@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fotobot Bareng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Pacifico&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+  /* ======================= GANTI DI SINI ======================= */
+  const FOTOBOT = {
+    tulisan: "Nadia ♡ Sholeh",      // nama di strip (bisa diubah di halaman)
+    tempat: "Semarang, Indonesia",  // tulisan kecil di bawah tanggal
+    jumlah: 3,                      // 3 atau 4 foto
+    bingkai: "daun",                // daun | pink | biru | emas
+    tata: "strip"                   // strip (memanjang) | kartu (lebar)
+  };
+</script>
+<style>
+  :root { --panel: rgba(30,14,36,.62); --panel2: rgba(255,255,255,.06); --line: rgba(255,200,220,.12);
+    --ink: #fbf1f5; --muted: #d4b8c8; --accent: #ff5c93; --accent2: #9b7bff; --gold: #ffd34f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden;
+    background: linear-gradient(180deg, #170b1f 0%, #2e1233 30%, #5a2042 58%, #96384f 82%, #d4675a 100%) fixed; }
+  .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .sky::before { content: ""; position: absolute; left: 50%; bottom: -30vh; width: 120vw; height: 70vh; transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(255,214,150,.55) 0%, rgba(255,140,110,.25) 35%, transparent 70%); }
+  .bokeh { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,226,180,.9), rgba(255,170,140,0) 70%);
+    animation: twinkle var(--t) ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: .15; transform: scale(.7) } to { opacity: .8; transform: scale(1.1) } }
+
+  .wrap { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  .top a, .top button { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; background: none; border: 0; cursor: pointer; font-family: inherit; }
+  .top a:hover, .top button:hover { color: var(--accent); }
+  .status { margin-left: auto; font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--dot, #ffd34f); box-shadow: 0 0 10px var(--dot, #ffd34f); animation: pulse 1.6s infinite; }
+  .status.ok { --dot: #5fe39a; } .status.err { --dot: #ff6b6b; }
+  @keyframes pulse { 50% { opacity: .3 } }
+
+  h1 { font-family: "Pacifico", cursive; font-weight: 400; text-align: center; font-size: clamp(2rem, 7vw, 2.8rem); color: #ffe3ea; text-shadow: 0 0 20px rgba(255,120,160,.5); }
+  .sub { text-align: center; color: var(--muted); margin: 6px auto 22px; max-width: 560px; line-height: 1.6; font-size: .95rem; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 22px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px rgba(20,5,20,.35); animation: up .7s both; }
+  @keyframes up { from { opacity: 0; transform: translateY(24px) } }
+  h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; font-weight: 700; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer; text-decoration: none;
+    font: 700 .95rem "Montserrat", sans-serif; color: #fff; background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 8px 24px rgba(255,92,147,.3); transition: transform .2s, opacity .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+  .btn.ghost { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); box-shadow: none; }
+  .btn.big { font-size: 1.15rem; padding: 16px 34px; }
+  input, select { padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.25); color: #fff; font: 600 1rem "Montserrat", sans-serif; min-width: 0; }
+  select option { color: #000; }
+
+  /* lobby */
+  .lobby { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+  @media (max-width: 760px) { .lobby { grid-template-columns: 1fr; } }
+  .prev { position: relative; aspect-ratio: 3 / 4; max-height: 420px; margin: 0 auto; width: 100%; border-radius: 18px; overflow: hidden; background: #1a0f20; }
+  .prev video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+  .nocam { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; background: rgba(20,8,24,.9); color: #ffb3c6; line-height: 1.6; font-size: .9rem; }
+  .opsi { display: grid; gap: 16px; }
+  .box { background: var(--panel2); border-radius: 16px; padding: 18px; }
+  .box p { color: var(--muted); font-size: .9rem; line-height: 1.5; margin-bottom: 12px; }
+  .row { display: flex; gap: 10px; }
+  .row input { flex: 1; text-transform: uppercase; letter-spacing: 6px; font-size: 1.3rem; font-weight: 900; text-align: center; }
+  .kode { margin: 14px 0 10px; font-size: 3rem; font-weight: 900; letter-spacing: 12px; text-align: center; color: var(--gold); text-shadow: 0 0 20px rgba(255,211,79,.5); font-variant-numeric: tabular-nums; }
+  .ket { font-size: .8rem; color: var(--muted); text-align: center; margin-top: 10px; }
+  .atau { text-align: center; color: var(--muted); font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* booth */
+  .layar { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cam { position: relative; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden; background: #1a0f20; border: 3px solid rgba(255,255,255,.12); }
+  .cam video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
+  .nm { position: absolute; left: 10px; bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.5); font-size: .85rem; font-weight: 700; backdrop-filter: blur(6px); }
+  .tunggu { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 16px;
+    background: rgba(20,8,24,.85); color: var(--muted); font-size: .9rem; line-height: 1.5; }
+  .tunggu b { font-size: 2rem; letter-spacing: 8px; color: var(--gold); }
+  .tunggu[hidden] { display: none; }
+  .hitung { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;
+    font-size: clamp(5rem, 22vw, 11rem); font-weight: 900; color: #fff; text-shadow: 0 0 40px rgba(255,92,147,.9), 0 4px 12px rgba(0,0,0,.5); opacity: 0; }
+  .hitung.on { animation: pop .9s ease-out; }
+  @keyframes pop { 0% { opacity: 1; transform: scale(1.6) } 60% { opacity: 1; transform: scale(1) } 100% { opacity: 0; transform: scale(.9) } }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; border-radius: 18px; }
+  .flash.on { animation: kedip .45s ease-out; }
+  @keyframes kedip { 0% { opacity: .95 } 100% { opacity: 0 } }
+  .ctrl { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-top: 18px; }
+  .ctrl label { display: flex; flex-direction: column; gap: 6px; font-size: .75rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .ctrl .grow { flex: 1; min-width: 160px; }
+  .ctrl input, .ctrl select { width: 100%; }
+  .ctrl .btn { margin-left: auto; }
+  .thumbs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .thumbs img { height: 64px; border-radius: 8px; border: 2px solid #fff; animation: up .4s both; }
+  .thumbs:empty { display: none; }
+  .tips { margin-top: 14px; font-size: .8rem; color: var(--muted); line-height: 1.6; }
+
+  /* hasil */
+  .hasil { text-align: center; }
+  .hasil img { max-width: min(100%, 520px); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.45); transform: rotate(-1.2deg); margin: 6px 0 20px; }
+  .aksi { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .note { color: var(--muted); font-size: .85rem; margin-top: 14px; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="sky" id="sky"></div>
+<div class="wrap">
+  <div class="top">
+    <a href="pilih.html">← Pilih dashboard</a>
+    <button onclick="keluar()">Keluar</button>
+    <span class="status" id="status">Menyiapkan kamera…</span>
+  </div>
+
+  <h1>Fotobot Bareng 📸</h1>
+  <p class="sub">Buka halaman ini di laptop masing-masing. Satu orang bikin ruang, satunya gabung pakai kode. Kameranya nyambung langsung, lalu jepret bareng!</p>
+
+  <!-- 1. Lobby -->
+  <section class="card lobby" id="lobby">
+    <div class="prev">
+      <video id="vPrev" autoplay muted playsinline></video>
+      <div class="nocam" id="noCam" hidden></div>
+    </div>
+    <div class="opsi">
+      <div class="box">
+        <h3>Bikin ruang</h3>
+        <p>Kamu dapat kode 4 huruf. Kirim kodenya (atau link undangan) ke dia.</p>
+        <button class="btn" id="bBuat" disabled>✨ Bikin ruang</button>
+        <div class="kode" id="kode" hidden></div>
+        <button class="btn ghost" id="bSalin" hidden>🔗 Salin link undangan</button>
+        <div class="ket" id="ketKode" hidden>Menunggu dia gabung…</div>
+      </div>
+      <div class="atau">atau</div>
+      <div class="box">
+        <h3>Gabung ke ruang dia</h3>
+        <p>Masukkan kode yang dia kirim.</p>
+        <div class="row"><input id="inKode" maxlength="4" placeholder="KODE" autocomplete="off" spellcheck="false"><button class="btn" id="bGabung" disabled>Gabung</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Booth -->
+  <section class="card" id="booth" hidden>
+    <div class="layar">
+      <div class="cam"><video id="vKiri" autoplay muted playsinline></video><span class="nm" id="nKiri"></span>
+        <div class="tunggu" id="tungguKiri" hidden>Terhubung ulang…</div></div>
+      <div class="cam"><video id="vKanan" autoplay muted playsinline></video><span class="nm" id="nKanan"></span>
+        <div class="tunggu" id="tungguKanan">Menunggu dia gabung…<b id="kode2"></b><span>Kirim kode ini ke dia</span></div></div>
+      <div class="hitung" id="hitung"></div>
+      <div class="flash" id="flash"></div>
+    </div>
+    <div class="ctrl">
+      <label>Tata letak <select id="selTata"><option value="strip">Strip memanjang</option><option value="kartu">Kartu lebar</option></select></label>
+      <label>Hiasan <select id="selBingkai"></select></label>
+      <label>Jumlah foto <select id="selJumlah"><option value="3">3</option><option value="4">4</option></select></label>
+      <label class="grow">Nama <input id="inTulisan" maxlength="30"></label>
+      <label class="grow">Tempat <input id="inTempat" maxlength="30"></label>
+      <button class="btn big" id="bJepret" disabled>📸 Jepret!</button>
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+    <p class="tips">Siapa saja boleh menekan <b>Jepret</b>; hitung mundurnya jalan di dua laptop sekaligus. Hasilnya muncul di laptop masing-masing dan bisa disimpan.</p>
+  </section>
+
+  <!-- 3. Hasil -->
+  <section class="card hasil" id="hasil" hidden>
+    <h3>Hasilnya 💗</h3>
+    <img id="imgHasil" alt="Hasil fotobot">
+    <div class="aksi">
+      <a class="btn" id="bUnduh" download="fotobot.png">⬇️ Simpan PNG</a>
+      <button class="btn ghost" id="bLagi">🔁 Foto lagi</button>
+    </div>
+    <p class="note">Dia juga dapat strip yang sama di laptopnya.</p>
+  </section>
+
+  <footer>Dibuat untuk difoto berdua, dari jauh pun tetap bareng 💖</footer>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const tidur = ms => new Promise(r => setTimeout(r, ms));
+  const me = authUser() || {};
+  const namaku = (me.nama || "Aku").trim().split(" ")[0];
+
+  // warna daun cat air + warna tulisan; kertasnya selalu putih seperti strip fotobot sungguhan
+  const BINGKAI = {
+    daun: { nama: "Daun eucalyptus", daun: ["#8fa58a", "#a9bca3", "#c3d2bb", "#6f8a6b"], teks: "#2f3a2d", garis: "#6f8a6b" },
+    pink: { nama: "Pink mawar",      daun: ["#e59ab2", "#f2bccb", "#f8d6df", "#c97a95"], teks: "#7a2b48", garis: "#c97a95" },
+    biru: { nama: "Biru lembut",     daun: ["#8da7c9", "#aec0d9", "#cbd8e8", "#6b87ad"], teks: "#23365a", garis: "#6b87ad" },
+    emas: { nama: "Emas hangat",     daun: ["#c9a46a", "#dcc08f", "#ead7b0", "#a9834a"], teks: "#5a4322", garis: "#a9834a" }
+  };
+  for (const k in BINGKAI) $("selBingkai").appendChild(new Option(BINGKAI[k].nama, k));
+  $("selBingkai").value = BINGKAI[FOTOBOT.bingkai] ? FOTOBOT.bingkai : "daun";
+  $("selTata").value = FOTOBOT.tata === "kartu" ? "kartu" : "strip";
+  $("selJumlah").value = FOTOBOT.jumlah === 4 ? "4" : "3";
+  $("inTulisan").value = FOTOBOT.tulisan;
+  $("inTempat").value = FOTOBOT.tempat;
+
+  let stream = null, peer = null, conn = null, call = null, akuHost = false, kodeRuang = "", namaDia = "Dia", sibuk = false;
+
+  function status(t, kelas) { const s = $("status"); s.textContent = t; s.className = "status" + (kelas ? " " + kelas : ""); }
+  // pasang stream ke <video> dan paksa jalan (autoplay kadang tidak jalan kalau elemennya sempat tersembunyi)
+  function putar(v, s) { v.srcObject = s; if (s) v.play().catch(() => {}); }
+
+  // ---- Kamera ----
+  async function kamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      noCam("Kamera cuma bisa dipakai lewat <b>https://</b> (link GitHub Pages) atau <b>localhost</b>. Lewat http://192.168… browser memblokir kamera.");
+      return;
+    }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, audio: false });
+      putar($("vPrev"), stream);
+      status("Kamera siap", "ok");
+      $("bBuat").disabled = $("bGabung").disabled = false;
+      const ruang = (new URLSearchParams(location.search).get("ruang") || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+      if (ruang.length === 4) { $("inKode").value = ruang; gabung(ruang); }
+    } catch (e) {
+      noCam("Kamera tidak bisa diakses (" + esc(e.name) + "). Izinkan kamera di browser, pastikan tidak dipakai aplikasi lain, lalu muat ulang.");
+    }
+  }
+  function noCam(html) { $("noCam").innerHTML = html; $("noCam").hidden = false; status("Kamera tidak tersedia", "err"); }
+
+  // ---- Ruang (PeerJS) ----
+  const idRuang = k => "fotobot-ultah-" + k;
+  const buatKode = () => { const c = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; return [...Array(4)].map(() => c[Math.floor(Math.random() * c.length)]).join(""); };
+  const PESAN = {
+    "peer-unavailable": "Kode ruang tidak ditemukan. Cek lagi kodenya, atau minta dia bikin ruang baru.",
+    "network": "Tidak bisa terhubung ke server penghubung. Cek koneksi internet.",
+    "browser-incompatible": "Browser ini tidak mendukung panggilan video. Pakai Chrome/Edge terbaru.",
+    "server-error": "Server penghubung sedang bermasalah. Coba lagi sebentar."
+  };
+
+  function buatRuang(ulang = 0) {
+    $("bBuat").disabled = true; status("Membuat ruang…");
+    const kode = buatKode();
+    peer = new Peer(idRuang(kode), { debug: 1 });
+    peer.on("open", () => { akuHost = true; kodeRuang = kode; tampilKode(kode); masukBooth(); });
+    peer.on("connection", c => { if (conn && conn.open) { c.close(); return; } pasangConn(c); });
+    peer.on("call", c => { call = c; c.answer(stream); c.on("stream", pasangRemote); c.on("close", putus); });
+    peer.on("error", e => {
+      if (e.type === "unavailable-id" && ulang < 5) { peer.destroy(); buatRuang(ulang + 1); }
+      else galat(e);
+    });
+    peer.on("disconnected", () => { if (peer && !peer.destroyed) peer.reconnect(); });
+  }
+
+  function gabung(kode) {
+    kode = (kode || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (kode.length !== 4) { $("inKode").focus(); return; }
+    $("bGabung").disabled = $("bBuat").disabled = true; status("Menghubungkan ke ruang " + kode + "…");
+    kodeRuang = kode; akuHost = false;
+    peer = new Peer({ debug: 1 });
+    peer.on("open", () => {
+      const c = peer.connect(idRuang(kode), { reliable: true });
+      pasangConn(c);
+      c.on("open", () => {
+        masukBooth();
+        call = peer.call(idRuang(kode), stream);
+        call.on("stream", pasangRemote);
+        call.on("close", putus);
+      });
+    });
+    peer.on("error", galat);
+    peer.on("disconnected", () => { if (peer && !peer.destroyed) peer.reconnect(); });
+  }
+
+  function pasangConn(c) {
+    conn = c;
+    c.on("open", () => { c.send({ t: "halo", nama: namaku }); if (akuHost) kirimSetel(); });  // setelan host jadi acuan saat tamu gabung
+    c.on("data", terima);
+    c.on("close", putus);
+    c.on("error", galat);
+  }
+  const kirim = d => { if (conn && conn.open) conn.send(d); };
+
+  function terima(d) {
+    if (!d || typeof d !== "object") return;
+    if (d.t === "halo") { namaDia = String(d.nama || "Dia").slice(0, 24); labelNama(); status("Terhubung dengan " + namaDia, "ok"); }
+    else if (d.t === "setel") terapkan(d, false);
+    else if (d.t === "mulai") jalankan(d, false);
+  }
+
+  function pasangRemote(s) {
+    putar(akuHost ? $("vKanan") : $("vKiri"), s);
+    $("tungguKanan").hidden = $("tungguKiri").hidden = true;
+    $("bJepret").disabled = false;
+    status("Terhubung dengan " + namaDia, "ok");
+  }
+
+  function putus() {
+    if (call) { try { call.close(); } catch {} }
+    call = null; conn = null;
+    const v = akuHost ? $("vKanan") : $("vKiri");
+    v.srcObject = null;
+    $("bJepret").disabled = true;
+    if (akuHost) { $("tungguKanan").innerHTML = `${esc(namaDia)} terputus. Menunggu gabung lagi…<b>${kodeRuang}</b>`; $("tungguKanan").hidden = false; }
+    else { $("tungguKiri").innerHTML = "Terputus dari ruang. Muat ulang halaman lalu gabung lagi."; $("tungguKiri").hidden = false; }
+    status("Terputus", "err");
+  }
+
+  function galat(e) {
+    console.error(e);
+    const pesan = PESAN[e && e.type] || ("Terjadi kesalahan: " + (e && e.message || e));
+    status(pesan, "err");
+    if (e && (e.type === "peer-unavailable" || e.type === "network" || e.type === "server-error") && $("booth").hidden) {
+      if (peer) { try { peer.destroy(); } catch {} peer = null; }
+      $("bGabung").disabled = $("bBuat").disabled = false;
+      alert(pesan);
+    }
+  }
+
+  function tampilKode(kode) {
+    $("kode").textContent = kode; $("kode").hidden = false;
+    $("bSalin").hidden = $("ketKode").hidden = false;
+    $("kode2").textContent = kode;
+  }
+  $("bSalin").onclick = async () => {
+    const link = location.origin + location.pathname + "?ruang=" + kodeRuang;
+    try { await navigator.clipboard.writeText(link); $("bSalin").textContent = "✅ Link tersalin"; }
+    catch { prompt("Salin link ini:", link); }
+    setTimeout(() => $("bSalin").textContent = "🔗 Salin link undangan", 2000);
+  };
+
+  function labelNama() {
+    $("nKiri").textContent = akuHost ? namaku + " (kamu)" : namaDia;
+    $("nKanan").textContent = akuHost ? namaDia : namaku + " (kamu)";
+  }
+  function masukBooth() {
+    putar(akuHost ? $("vKiri") : $("vKanan"), stream);
+    labelNama();
+    $("lobby").hidden = true; $("booth").hidden = false;
+    if (!akuHost) { $("tungguKanan").hidden = true; $("tungguKiri").innerHTML = "Menyambungkan kamera dia…"; $("tungguKiri").hidden = false; }
+    status(akuHost ? "Ruang " + kodeRuang + " siap, menunggu dia…" : "Terhubung, menunggu video…", "ok");
+  }
+
+  // ---- Pengaturan tersinkron ----
+  function setelan() { return { bingkai: $("selBingkai").value, tata: $("selTata").value, jumlah: +$("selJumlah").value, tulisan: $("inTulisan").value, tempat: $("inTempat").value }; }
+  function terapkan(d) {
+    if (BINGKAI[d.bingkai]) $("selBingkai").value = d.bingkai;
+    if (d.tata === "strip" || d.tata === "kartu") $("selTata").value = d.tata;
+    if (d.jumlah === 3 || d.jumlah === 4) $("selJumlah").value = d.jumlah;
+    if (typeof d.tulisan === "string") $("inTulisan").value = d.tulisan.slice(0, 30);
+    if (typeof d.tempat === "string") $("inTempat").value = d.tempat.slice(0, 30);
+  }
+  function kirimSetel() { kirim({ t: "setel", ...setelan() }); }
+  $("selBingkai").onchange = $("selTata").onchange = $("selJumlah").onchange = kirimSetel;
+  let st; $("inTulisan").oninput = $("inTempat").oninput = () => { clearTimeout(st); st = setTimeout(kirimSetel, 300); };
+
+  // ---- Jepret ----
+  // satu jepretan = dua potret 3:4 berdampingan -> foto lebar 900x600 (3:2)
+  const PW = 450, PH = 600, FW = PW * 2, FH = PH;
+  function gambarVideo(ctx, v, x) {
+    const w = v.videoWidth, h = v.videoHeight;
+    if (!w || !h) { ctx.fillStyle = "#e9e4dc"; ctx.fillRect(x, 0, PW, PH); return; }
+    const cw = Math.min(w, h * 3 / 4), ch = cw * 4 / 3, sx = (w - cw) / 2, sy = (h - ch) / 2;
+    ctx.save(); ctx.translate(x + PW, 0); ctx.scale(-1, 1);   // cermin, sama seperti yang terlihat di layar
+    ctx.drawImage(v, sx, sy, cw, ch, 0, 0, PW, PH); ctx.restore();
+  }
+  function ambil() {
+    const c = document.createElement("canvas"); c.width = FW; c.height = FH;
+    const ctx = c.getContext("2d");
+    gambarVideo(ctx, $("vKiri"), 0); gambarVideo(ctx, $("vKanan"), PW);
+    return c;
+  }
+  function hitung(n) { const h = $("hitung"); h.textContent = n; h.classList.remove("on"); void h.offsetWidth; h.classList.add("on"); }
+  function kedip() { const f = $("flash"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on"); }
+
+  async function jalankan(p, akuYangMulai) {
+    if (sibuk) return; sibuk = true;
+    if (akuYangMulai) kirim({ t: "mulai", ...p });
+    terapkan(p);
+    $("bJepret").disabled = true; $("thumbs").innerHTML = "";
+    $("hasil").hidden = true; $("booth").hidden = false;
+    const jepretan = [];
+    for (let i = 0; i < p.jumlah; i++) {
+      for (const n of [3, 2, 1]) { hitung(n); await tidur(900); }
+      kedip();
+      const c = ambil(); jepretan.push(c);
+      const t = new Image(); t.src = c.toDataURL("image/jpeg", .6); $("thumbs").appendChild(t);
+      await tidur(1300);
+    }
+    await susun(jepretan, p);
+    sibuk = false; $("bJepret").disabled = !(conn && conn.open);
+  }
+  $("bJepret").onclick = () => jalankan(setelan(), true);
+
+  function bulat(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  // ranting daun cat air: tangkai lengkung + daun-daun elips semi transparan bertumpuk
+  function ranting(ctx, b, x, y, sudut, skala, seed) {
+    const rnd = i => { const v = Math.sin((seed + i) * 9301 + 49297) * 233280; return v - Math.floor(v); };
+    const L = 260;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(sudut); ctx.scale(skala, skala);
+    ctx.strokeStyle = b.garis; ctx.globalAlpha = .6; ctx.lineWidth = 3; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(L * .5, -30, L, -10); ctx.stroke();
+    for (let i = 0; i < 6; i++) {
+      const t = .12 + i * .16, px = L * t, py = 2 * (1 - t) * t * -30 + t * t * -10;
+      const sisi = i % 2 ? 1 : -1, u = 44 - i * 4;
+      ctx.save(); ctx.translate(px, py); ctx.rotate(sisi * (.85 + rnd(i) * .5) - .15);
+      ctx.strokeStyle = b.garis; ctx.globalAlpha = .45; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(u * .5, 0); ctx.stroke();
+      ctx.fillStyle = b.daun[i % b.daun.length]; ctx.globalAlpha = .55 + rnd(i + 9) * .3;
+      ctx.beginPath(); ctx.ellipse(u * .95, 0, u, u * .62, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = b.daun[(i + 1) % b.daun.length]; ctx.globalAlpha = .35;
+      ctx.beginPath(); ctx.ellipse(u * .85, 4, u * .7, u * .42, .25, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#fff"; ctx.globalAlpha = .18;
+      ctx.beginPath(); ctx.ellipse(u * .7, -6, u * .4, u * .2, -.3, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  // nama (tulisan tangan), garis tipis, tanggal, tempat — seperti strip fotobot pernikahan
+  function tulisanBawah(ctx, b, p, cx, y, lebar) {
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = b.teks;
+    ctx.font = "700 74px 'Dancing Script'"; ctx.fillText((p.tulisan || "").trim() || FOTOBOT.tulisan, cx, y);
+    ctx.strokeStyle = b.teks; ctx.globalAlpha = .8; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cx - lebar / 2, y + 56); ctx.lineTo(cx + lebar / 2, y + 56); ctx.stroke(); ctx.globalAlpha = 1;
+    const d = new Date(), tgl = `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${d.getFullYear()}`;
+    try { ctx.letterSpacing = "3px"; } catch {}
+    ctx.font = "300 28px Montserrat"; ctx.fillText(tgl, cx, y + 100);
+    ctx.font = "400 22px Montserrat"; ctx.fillText(((p.tempat || "").trim() || FOTOBOT.tempat).toUpperCase(), cx, y + 140);
+    try { ctx.letterSpacing = "0px"; } catch {}
+  }
+  function foto(ctx, img, x, y, w, h) {
+    ctx.save(); ctx.shadowColor = "rgba(0,0,0,.12)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
+    ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.restore();
+    ctx.drawImage(img, 0, 0, FW, FH, x, y, w, h);
+  }
+
+  async function susun(js, p) {
+    const b = BINGKAI[p.bingkai] || BINGKAI.daun;
+    await Promise.all([document.fonts.load("700 74px 'Dancing Script'"), document.fonts.load("300 28px Montserrat")]).catch(() => {});
+    const c = document.createElement("canvas"), ctx = c.getContext("2d");
+    let W, H;
+    if (p.tata === "kartu") {
+      // kartu lebar: foto besar + panel tulisan, baris foto kecil di bawah
+      const pad = 60, gap = 30, panel = 560, kecilH = 324, kecilW = 486;
+      W = pad * 2 + FW + gap + panel; H = pad + FH + gap + kecilH + pad;
+      c.width = W; c.height = H;
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H);
+      const px = pad + FW + gap;
+      ranting(ctx, b, W - 30, 20, Math.PI - .55, .9, 1);
+      ranting(ctx, b, px + 20, 60, .45, .7, 4);
+      ranting(ctx, b, W - 20, 600, Math.PI + .35, .55, 7);
+      foto(ctx, js[0], pad, pad, FW, FH);
+      tulisanBawah(ctx, b, p, px + panel / 2, pad + 300, 160);
+      const kecil = js.length >= 4 ? js.slice(1, 4) : js.slice(0, 3);
+      const mulai = (W - (kecil.length * kecilW + (kecil.length - 1) * gap)) / 2;
+      kecil.forEach((f, i) => foto(ctx, f, mulai + i * (kecilW + gap), pad + FH + gap, kecilW, kecilH));
+    } else {
+      // strip memanjang: daun di atas, foto bertumpuk, nama & tanggal di bawah
+      const pad = 60, gap = 30, head = 200, foot = 330;
+      W = pad * 2 + FW; H = head + js.length * FH + (js.length - 1) * gap + foot;
+      c.width = W; c.height = H;
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H);
+      ranting(ctx, b, 20, 20, .55, .9, 1);
+      ranting(ctx, b, W - 20, 20, Math.PI - .55, .9, 2);
+      ranting(ctx, b, 20, H - 20, -.55, .95, 3);
+      ranting(ctx, b, W - 20, H - 20, Math.PI + .55, .95, 5);
+      js.forEach((f, i) => foto(ctx, f, pad, head + i * (FH + gap), FW, FH));
+      tulisanBawah(ctx, b, p, W / 2, H - foot + 110, 240);
+    }
+
+    const url = c.toDataURL("image/png");
+    $("imgHasil").src = url; $("bUnduh").href = url;
+    $("bUnduh").download = `fotobot-${new Date().toISOString().slice(0, 10)}.png`;
+    $("booth").hidden = true; $("hasil").hidden = false;
+    $("hasil").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  $("bLagi").onclick = () => { $("hasil").hidden = true; $("booth").hidden = false; $("thumbs").innerHTML = ""; };
+
+  // ---- Lobby ----
+  $("bBuat").onclick = () => buatRuang();
+  $("bGabung").onclick = () => gabung($("inKode").value);
+  $("inKode").oninput = e => e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  $("inKode").onkeydown = e => { if (e.key === "Enter") gabung(e.target.value); };
+  addEventListener("beforeunload", () => { if (peer) peer.destroy(); });
+
+  for (let i = 0; i < 40; i++) {
+    const bk = document.createElement("span"), s = 4 + Math.random() * 14;
+    bk.className = "bokeh";
+    bk.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}%;top:${20 + Math.random() * 80}%;--t:${2 + Math.random() * 4}s;animation-delay:${-Math.random() * 4}s`;
+    $("sky").appendChild(bk);
+  }
+  kamera();
+</script>
+</body>
+</html>

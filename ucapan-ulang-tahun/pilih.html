@@ -45,6 +45,14 @@
   .pick p { color: #d4b8c8; margin-top: 6px; font-size: .92rem; }
   .go { display: inline-block; margin-top: 16px; padding: 10px 22px; border-radius: 999px; font-weight: 700; font-size: .9rem; color: #fff;
     background: linear-gradient(90deg, var(--w), #9b7bff); }
+  .booth { position: relative; display: flex; align-items: center; gap: 16px; max-width: 900px; margin: 22px auto 0; padding: 18px 22px; border-radius: 22px; text-decoration: none; color: inherit;
+    background: rgba(30,14,36,.6); border: 1px solid rgba(255,200,220,.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 50px rgba(20,5,20,.4); transition: transform .3s, border-color .3s; opacity: 0; animation: up .8s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: .5s; }
+  .booth:hover { transform: translateY(-4px); border-color: #ffd34f; }
+  .booth .ic { font-size: 2.2rem; flex-shrink: 0; }
+  .booth b { display: block; font-size: 1.05rem; }
+  .booth p { color: #d4b8c8; font-size: .88rem; margin-top: 3px; }
+  .booth .go { margin: 0 0 0 auto; flex-shrink: 0; background: linear-gradient(90deg, #ffd34f, #ff5c93); }
 </style>
 </head>
 <body>
@@ -54,12 +62,21 @@
   </div>
   <header><h1>Mau lihat siapa?</h1><p>Pilih salah satu dashboard</p></header>
   <div class="grid" id="grid"></div>
+  <a class="booth" href="fotobot.html"><span class="ic">📸</span><span><b>Fotobot bareng</b><p>Foto berdua dari laptop masing-masing, hasilnya jadi satu strip.</p></span><span class="go">Mulai ➜</span></a>
 
 <script>
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const u = authUser();
   if (u) $("me").innerHTML = (u.foto ? `<img src="${esc(u.foto)}" alt="" referrerpolicy="no-referrer">` : "") + `<span>Halo, <b>${esc(u.nama || u.email)}</b></span>`;
+
+  // Tanggal 14 November (atau ?preview): kartu Nadia membuka ucapan & tiup lilin dulu, baru dashboard
+  const now = new Date(), preview = new URLSearchParams(location.search).has("preview");
+  const ultahNadia = now.getMonth() === 10 && now.getDate() === 14;
+  ORANG[0].link = ultahNadia ? "ucapan.html" : preview ? "ucapan.html?preview" : "profil.html";
+  // 6 Desember: kartu Sholeh membuka ucapan bertema listrik dulu, baru portofolio
+  const ultahSholeh = now.getMonth() === 11 && now.getDate() === 6;
+  ORANG[1].link = ultahSholeh ? "ultah-sholeh.html" : preview ? "ultah-sholeh.html?preview" : "sholeh.html";
 
   ORANG.forEach((o, i) => {
     const a = document.createElement("a");

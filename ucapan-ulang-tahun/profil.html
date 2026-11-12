@@ -52,6 +52,25 @@
       "Aku suka semuanya yang ada pada kamu lillahitaalla"
     ],
 
+    // [kode, nama, keterangan, emoji, file logo di folder org/, [[jabatan, periode, cerita]]]
+    // Foto kegiatan: org/<kode>-1.jpg, <kode>-2.jpg, ... (sampai 6) — yang filenya ada otomatis muncul
+    organisasi: [
+      ["fst", "Forum Studi Teknik UNDIP", "Semarang · Mar 2025 – sekarang", "📚", "FST.png", [
+        ["Internal Secretary", "Mar 2026 – sekarang", "Mengelola dokumentasi dan administrasi organisasi: arsip dokumen, notulensi rapat, timeline kegiatan, dan inventaris. Mengoordinasikan rapat dengan sekretaris tiap divisi supaya komunikasi dan administrasi berjalan rapi."],
+        ["Human Resources Development", "Mar 2025 – sekarang", "Mengelola SDM internal lewat monitoring kinerja, evaluasi, dan pengembangan anggota. Menyusun program self-awareness, laporan kinerja, grand design dan KPI departemen, serta mendukung evaluasi bulanan dan regenerasi."]
+      ]],
+      ["hmtk", "Himpunan Mahasiswa Teknik Kimia UNDIP", "Semarang · Mar 2025 – Mar 2026", "⚗️", "HMTK.png", [
+        ["Riset dan Teknologi", "Apr 2025 – Mar 2026", "Berkontribusi di pengembangan riset dan akademik lewat program edukasi, lomba, pelatihan, dan berbagi ilmu. Membantu mahasiswa mengasah kemampuan riset, presentasi, dan penulisan ilmiah."],
+        ["Sekretaris Chemical Engineering Fair & Competition", "Mar 2025 – Okt 2025", "Menyiapkan proposal, surat sponsor, dan surat undangan; mengurus sertifikat, notulensi, dan LPJ. Mengoordinasikan administrasi dengan birokrasi fakultas dan pihak luar supaya acara berjalan lancar."]
+      ]],
+      ["lkmm", "LKMM TD Fakultas Teknik 2025", "BEM FT UNDIP · Mei 2025 – Okt 2025", "🎓", "LKMMTD FT.png", [
+        ["Peserta", "Mei 2025 – Okt 2025", "Latihan Keterampilan Manajemen Mahasiswa Tingkat Dasar: manajemen risiko, manajemen SDM, rekayasa organisasi, kaderisasi, mini project fundraising & sosial, perencanaan proyek, dan penyusunan grand design organisasi."]
+      ]],
+      ["tenn", "Tenn o Vibes", "Tembalang · Paruh waktu", "☕", "TENNO.png", [
+        ["Barista", "Jan 2026 – Mar 2026", "Pengalaman langsung di operasional kafe: kasir, menyiapkan produk, mengoperasikan mesin kopi, menyajikan, dan melayani pelanggan dengan ramah."]
+      ]]
+    ],
+
     timeline: [                     // [tanggal, judul, cerita]
       ["2026-08-01", "Ketemu di PPKO Ormawa FST 💕", "Gara-gara Forum Studi Teknik, kita ketemu. Mungkin kalau aku nggak ambil project ini, aku nggak akan pernah kenal kamu. Mungkin itu yang namanya takdir."],
       ["2026-11-14", "Ulang tahun ke-20 🎂", "Ulang tahun pertamamu yang aku rayakan."]
@@ -78,7 +97,9 @@
       ["foto/16.jpg", "Sunrise di puncak ⛰️"],
       ["foto/17.jpg", "Pose di depan pintu 🚪"],
       ["foto/18.jpg", "Bersinar ✨"],
-      ["foto/profil-nadia.jpg", "Melet dulu 😛"]
+      ["foto/profil-nadia.jpg", "Melet dulu 😛"],
+      ["foto/agustusan-1.jpg", "MC Agustusan 🎤"],
+      ["foto/agustusan-2.jpg", "Pegang mic, auto keren 🇮🇩"]
     ]
   };
 </script>
@@ -191,6 +212,25 @@
   .tl b { display: block; margin: 2px 0; }
   .tl p { color: var(--muted); font-size: .9rem; line-height: 1.5; }
 
+  /* organisasi */
+  .orgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 14px; }
+  .org { background: var(--panel2); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .org .head { display: flex; gap: 12px; align-items: center; }
+  .org .logo { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); overflow: hidden; }
+  .org .logo.ada { background: #fff; padding: 5px; }
+  .org .logo img { width: 100%; height: 100%; object-fit: contain; }
+  .org .head b { display: block; line-height: 1.3; }
+  .org .head small { color: var(--muted); font-size: .78rem; }
+  .org .role { border-left: 2px solid var(--accent); padding-left: 12px; }
+  .org .role b { font-size: .92rem; }
+  .org .role small { display: block; color: var(--accent); font-weight: 700; font-size: .75rem; margin: 2px 0 4px; }
+  .org .role p { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+  .org .pics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .org .pics:empty { display: none; }
+  .org .pics img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; cursor: zoom-in; transition: transform .2s; }
+  .org .pics img:hover { transform: scale(1.04); }
+
   /* foto cantik: dinding makrame */
   .fc-card { color: #ffe6ee; overflow: hidden; position: relative;
     background:
@@ -242,7 +282,8 @@
 <div class="wrap">
   <div class="top">
     <a href="pilih.html">← Pilih dashboard</a>
-    <a href="index.html" id="back">🎂 Putar lagi ucapannya</a>
+    <a href="fotobot.html">📸 Fotobot bareng</a>
+    <a href="ucapan.html" id="back">🎂 Putar lagi ucapannya</a>
     <button onclick="keluar()">Keluar</button>
     <span class="live">Live</span>
   </div>
@@ -282,6 +323,9 @@
 
     <!-- Info -->
     <section class="card c4" style="--d:.4s"><h3>Info singkat</h3><div class="list" id="info"></div></section>
+
+    <!-- Organisasi -->
+    <section class="card c12" style="--d:.42s"><h3>Organisasi & Pengalaman</h3><div class="orgs" id="orgs"></div></section>
 
     <!-- Favorit -->
     <section class="card c12" style="--d:.45s"><h3>Hal-hal favorit</h3><div class="fav" id="fav"></div></section>
@@ -328,8 +372,8 @@
   {
     const [, bm, bd] = PROFIL.lahir.split("-").map(Number), now = new Date();
     const preview = new URLSearchParams(location.search).has("preview");
-    if (preview) $("back").href = "index.html?preview";
-    else if (now.getMonth() + 1 === bm && now.getDate() === bd) $("back").href = "index.html";
+    if (preview) $("back").href = "ucapan.html?preview";
+    else if (now.getMonth() + 1 === bm && now.getDate() === bd) $("back").href = "ucapan.html";
     else $("back").remove();
   }
 
@@ -355,6 +399,27 @@
   PROFIL.favorit.forEach(x => $("fav").appendChild(el("div", "item", itemHTML(x))));
   PROFIL.alasan.forEach(x => $("why").appendChild(el("li", "", esc(x))));
   PROFIL.timeline.forEach(([d, j, c]) => $("tl").appendChild(el("div", "", `<small>${tgl(parse(d))}</small><b>${esc(j)}</b><p>${esc(c)}</p>`)));
+  // ---- Organisasi: logo & foto otomatis muncul kalau filenya ada ----
+  PROFIL.organisasi.forEach(([kode, nama, ket, emoji, fileLogo, peran]) => {
+    const o = el("article", "org", `<div class="head"><div class="logo">${emoji}</div><div><b>${esc(nama)}</b><small>${esc(ket)}</small></div></div>
+      ${peran.map(([j, p, c]) => `<div class="role"><b>${esc(j)}</b><small>${esc(p)}</small><p>${esc(c)}</p></div>`).join("")}
+      <div class="pics"></div>`);
+    const logo = new Image(), box = o.querySelector(".logo");
+    logo.alt = nama;
+    logo.onload = () => { box.textContent = ""; box.classList.add("ada"); box.appendChild(logo); };
+    if (fileLogo) logo.src = "org/" + encodeURIComponent(fileLogo);
+    const pics = o.querySelector(".pics"), slot = [];
+    for (let i = 1; i <= 6; i++) {
+      const im = new Image(), src = `org/${kode}-${i}.jpg`;
+      im.alt = nama;
+      im.onclick = () => { $("lbImg").src = src; $("lbCap").textContent = nama; $("lb").classList.add("open"); };
+      // urutan tetap 1, 2, 3… walaupun selesai dimuat tidak berurutan
+      im.onload = () => { slot[i] = im; pics.replaceChildren(...slot.filter(Boolean)); };
+      im.src = src;
+    }
+    $("orgs").appendChild(o);
+  });
+
   PROFIL.statistik.forEach(([k, v]) => {
     const s = el("div", "stat", `<div class="row"><span>${esc(k)}</span><span>0%</span></div><div class="track"><div class="fill"></div></div>`);
     $("stats").appendChild(s);

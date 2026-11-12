@@ -195,6 +195,23 @@
   .f1 { left: -6%; top: 22%; } .f2 { right: -6%; top: 48%; animation-delay: -1.5s; } .f3 { left: 4%; bottom: 6%; animation-delay: -2.5s; }
   @keyframes bob { 50% { transform: translateY(-10px) } }
 
+  /* nuansa elektro: jalur PCB di latar, busur listrik di bingkai foto, osiloskop 3 fasa */
+  .pcb { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5; }
+  .pcb svg { width: 100%; height: 100%; }
+  .pcb .trace { fill: none; stroke: rgba(124,92,255,.12); stroke-width: 2; }
+  .pcb .pulse { fill: none; stroke: #4fe3ff; stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 4px #4fe3ff);
+    stroke-dasharray: 14 500; animation: arus var(--t) linear infinite; animation-delay: var(--dl); }
+  .pcb .pad { fill: var(--bg); stroke: rgba(124,92,255,.3); stroke-width: 2; }
+  @keyframes arus { from { stroke-dashoffset: 514 } to { stroke-dashoffset: 0 } }
+  .photo .arc { position: absolute; inset: -24px; width: calc(100% + 48px); height: calc(100% + 48px); pointer-events: none; z-index: 3; }
+  .scope { margin-top: 16px; max-width: 470px; border-radius: 16px; padding: 10px 12px 8px; background: #0b0f14; border: 1px solid rgba(79,227,255,.25);
+    box-shadow: inset 0 0 24px rgba(0,0,0,.8), 0 10px 30px rgba(0,0,0,.3); }
+  .scope .row { display: flex; justify-content: space-between; gap: 8px; font-size: .68rem; font-weight: 700; letter-spacing: 1px; color: #6f8a96; }
+  .scope .row i { font-style: normal; } .scope .r { color: #ff5c7a; } .scope .s { color: #ffd23f; } .scope .t { color: #4fe3ff; }
+  .scope canvas { display: block; width: 100%; height: 96px; margin-top: 6px; }
+  @media (max-width: 860px) { .scope { margin-inline: auto; } }
+  @media (prefers-reduced-motion: reduce) { .pcb .pulse { animation: none; } }
+
   /* marquee */
   .marquee { overflow: hidden; padding: 18px 0; border-block: 1px solid var(--line); background: rgba(255,255,255,.02); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
   .track { display: flex; gap: 14px; width: max-content; animation: scroll 40s linear infinite; }
@@ -341,8 +358,11 @@
   </div>
 </nav>
 
+<div class="pcb" id="pcb"></div>
+
 <div class="container subbar">
   <a href="pilih.html">← Pilih dashboard</a>
+  <a href="fotobot.html">📸 Fotobot bareng</a>
   <button onclick="keluar()">Keluar</button>
 </div>
 
@@ -363,11 +383,16 @@
         <div class="stat"><b id="sOrg">–</b><span>kerja & organisasi</span></div>
         <div class="stat"><b id="sUltah">–</b><span id="sUltahL">hari menuju ultah</span></div>
       </div>
+      <div class="scope">
+        <div class="row"><span>OSILOSKOP · 3 FASA · 50 Hz</span><span><i class="r">R</i> · <i class="s">S</i> · <i class="t">T</i> &nbsp;380 V</span></div>
+        <canvas id="scope"></canvas>
+      </div>
     </div>
     <div class="photo reveal">
       <div class="glow"></div>
       <div class="ini" id="ini">MSR</div>
       <div class="pic" id="pic"></div>
+      <canvas class="arc" id="arc"></canvas>
     </div>
   </section>
 </main>
@@ -586,6 +611,101 @@
   // ---- Animasi muncul saat di-scroll ----
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll(".reveal").forEach(r => io.observe(r));
+
+  // ---- Nuansa elektro ----
+  const diam = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // jalur PCB dengan pulsa arus di latar
+  (function pcb() {
+    const W = innerWidth, H = innerHeight, g = 40;
+    let s = "";
+    for (let i = 0; i < 12; i++) {
+      let x = Math.round(Math.random() * W / g) * g, y = Math.round(Math.random() * H / g) * g, d = `M${x} ${y}`;
+      for (let k = 0; k < 4; k++) {
+        const n = g * (2 + Math.floor(Math.random() * 5)) * (Math.random() < .5 ? -1 : 1);
+        if (k % 2) y += n; else x += n;
+        d += ` L${x} ${y}`;
+      }
+      s += `<path class="trace" d="${d}"/><path class="pulse" d="${d}" style="--t:${3 + Math.random() * 4}s;--dl:${-Math.random() * 5}s"/><circle class="pad" cx="${x}" cy="${y}" r="5"/>`;
+    }
+    $("pcb").innerHTML = `<svg>${s}</svg>`;
+  })();
+
+  // osiloskop: gelombang sinus fasa R, S, T (bergeser 120°)
+  (function osiloskop() {
+    const cv = $("scope"), c = cv.getContext("2d"), dpr = Math.min(devicePixelRatio || 1, 2);
+    let W, H, t = 0;
+    const ukur = () => { W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    ukur(); addEventListener("resize", ukur);
+    (function frame() {
+      c.clearRect(0, 0, W, H);
+      c.strokeStyle = "rgba(79,227,255,.08)"; c.lineWidth = 1;
+      for (let x = 0; x <= W; x += W / 10) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H); c.stroke(); }
+      for (let y = 0; y <= H; y += H / 4) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
+      [["#ff5c7a", 0], ["#ffd23f", 2.094], ["#4fe3ff", 4.189]].forEach(([w, f]) => {
+        c.beginPath();
+        for (let x = 0; x <= W; x += 2) { const y = H / 2 - Math.sin(x / W * Math.PI * 4 - t + f) * H * .38; x ? c.lineTo(x, y) : c.moveTo(x, y); }
+        c.strokeStyle = w; c.lineWidth = 2; c.shadowColor = w; c.shadowBlur = 8; c.stroke(); c.shadowBlur = 0;
+      });
+      t += .05;
+      if (!diam) requestAnimationFrame(frame);
+    })();
+  })();
+
+  // busur listrik yang merayap di bingkai foto, sesekali menyambar keluar
+  (function busur() {
+    if (diam) return;
+    const cv = $("arc"), c = cv.getContext("2d"), dpr = Math.min(devicePixelRatio || 1, 2), M = 24;
+    let W, H, bolts = [], jeda = 0;
+    const ukur = () => { W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    ukur(); addEventListener("resize", ukur);
+    // titik di keliling bingkai foto (.pic: inset 0 4%)
+    const tepi = s => {
+      const x0 = M + (W - 2 * M) * .04, x1 = W - x0, y0 = M, y1 = H - M, w = x1 - x0, h = y1 - y0, P = 2 * (w + h);
+      s = ((s % P) + P) % P;
+      if (s < w) return [x0 + s, y0];
+      if ((s -= w) < h) return [x1, y0 + s];
+      if ((s -= h) < w) return [x1 - s, y1];
+      return [x0, y1 - (s - w)];
+    };
+    const keliling = () => 2 * ((W - 2 * M) * .92 + H - 2 * M);
+    function kilat(a, b, acak) {
+      let p = [a, b];
+      for (let k = 0; k < 5; k++) {
+        const q = [p[0]];
+        for (let i = 1; i < p.length; i++) {
+          const [ax, ay] = p[i - 1], [bx, by] = p[i], dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, o = (Math.random() - .5) * acak;
+          q.push([(ax + bx) / 2 - dy / L * o, (ay + by) / 2 + dx / L * o], p[i]);
+        }
+        p = q; acak *= .55;
+      }
+      return p;
+    }
+    (function frame() {
+      if (--jeda <= 0) {
+        jeda = 2 + Math.random() * 3;
+        const P = keliling(), s = Math.random() * P, a = tepi(s);
+        if (Math.random() < .12) {   // sambaran keluar bingkai
+          const ang = Math.random() * Math.PI * 2;
+          bolts.push({ p: kilat(a, [a[0] + Math.cos(ang) * 60, a[1] + Math.sin(ang) * 60], 40), t: 1 });
+        } else {
+          const b = tepi(s + 40 + Math.random() * 90);
+          bolts.push({ p: kilat(a, b, 26), t: 1 });
+        }
+      }
+      c.clearRect(0, 0, W, H);
+      c.globalCompositeOperation = "lighter";
+      bolts = bolts.filter(b => (b.t -= .09) > 0);
+      bolts.forEach(b => {
+        c.beginPath(); b.p.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y));
+        c.globalAlpha = b.t;
+        c.strokeStyle = "#b07bff"; c.lineWidth = 3; c.shadowColor = "#b07bff"; c.shadowBlur = 16; c.stroke();
+        c.strokeStyle = "#fff"; c.lineWidth = 1; c.shadowBlur = 0; c.stroke();
+      });
+      c.globalAlpha = 1; c.globalCompositeOperation = "source-over";
+      requestAnimationFrame(frame);
+    })();
+  })();
 </script>
 </body>
 </html>
